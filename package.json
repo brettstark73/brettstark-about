@@ -1,0 +1,14 @@
+{
+  "name": "brett-stark-about-me",
+  "version": "1.0.0",
+  "description": "Professional About Me page for Brett Stark",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["brett-stark", "about-me", "portfolio", "ai-second-act"],
+  "author": "Brett Stark",
+  "license": "MIT"
+}
