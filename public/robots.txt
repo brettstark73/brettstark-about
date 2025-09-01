@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://about.brettstark.com/sitemap.xml
