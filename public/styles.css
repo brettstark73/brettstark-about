@@ -87,6 +87,17 @@ body {
     opacity: 0.8;
 }
 
+.location a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.location a:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
 main {
     padding: 4rem 0;
 }
