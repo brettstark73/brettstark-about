@@ -122,6 +122,11 @@ main {
     line-height: 1.7;
 }
 
+.bio-section p.indent {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
 .links {
     background: var(--surface);
     padding: 4rem 0;
