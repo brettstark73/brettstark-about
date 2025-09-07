@@ -160,6 +160,38 @@
             </div>
         </section>
 
+        <section class="github-activity">
+            <div class="container">
+                <h3>GitHub Activity</h3>
+                <div class="github-tabs">
+                    <button class="github-tab active" data-tab="commits" aria-controls="commits-panel" role="tab" aria-selected="true">Recent Commits</button>
+                    <button class="github-tab" data-tab="repos" aria-controls="repos-panel" role="tab" aria-selected="false">Recent Repos</button>
+                </div>
+                
+                <div class="github-content">
+                    <div id="commits-panel" class="github-panel active" role="tabpanel" aria-labelledby="commits-tab">
+                        <div class="github-loading">
+                            <p>Loading recent commits...</p>
+                        </div>
+                        <div class="github-error" style="display: none;">
+                            <p>Unable to load GitHub activity. <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View my GitHub profile</a></p>
+                        </div>
+                        <ul class="github-commits" style="display: none;"></ul>
+                    </div>
+                    
+                    <div id="repos-panel" class="github-panel" role="tabpanel" aria-labelledby="repos-tab" style="display: none;">
+                        <div class="github-loading">
+                            <p>Loading recent repositories...</p>
+                        </div>
+                        <div class="github-error" style="display: none;">
+                            <p>Unable to load repositories. <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View my GitHub profile</a></p>
+                        </div>
+                        <div class="github-repos" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="contact">
             <div class="container">
                 <h3>Get In Touch</h3>
@@ -174,5 +206,176 @@
             <p>&copy; 2025 Brett Stark. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+    // GitHub Activity functionality
+    (function() {
+        let githubData = null;
+        
+        // Utility function to escape HTML
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        // Format relative time
+        function formatRelativeTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+        
+        // Format number with k suffix
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+            }
+            return num.toString();
+        }
+        
+        // Render commits
+        function renderCommits(commits) {
+            const container = document.querySelector('.github-commits');
+            
+            if (!commits || commits.length === 0) {
+                container.innerHTML = '<li class="github-empty">No recent commits found</li>';
+                return;
+            }
+            
+            const html = commits.map(commit => `
+                <li class="github-commit-item">
+                    <div class="commit-repo">
+                        <a href="${escapeHtml(commit.repoUrl)}" target="_blank" rel="noopener noreferrer">
+                            ${escapeHtml(commit.repo)}
+                        </a>
+                    </div>
+                    <div class="commit-message">
+                        <a href="${escapeHtml(commit.commitUrl)}" target="_blank" rel="noopener noreferrer">
+                            ${escapeHtml(commit.message)}
+                        </a>
+                    </div>
+                    <div class="commit-time">${formatRelativeTime(commit.timestamp)}</div>
+                </li>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        // Render repositories
+        function renderRepos(repos) {
+            const container = document.querySelector('.github-repos');
+            
+            if (!repos || repos.length === 0) {
+                container.innerHTML = '<div class="github-empty">No recent repositories found</div>';
+                return;
+            }
+            
+            const html = repos.map(repo => `
+                <div class="github-repo-item">
+                    <div class="repo-header">
+                        <h4><a href="${escapeHtml(repo.htmlUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(repo.name)}</a></h4>
+                        ${repo.language ? `<span class="repo-language">${escapeHtml(repo.language)}</span>` : ''}
+                    </div>
+                    <p class="repo-description">${escapeHtml(repo.description)}</p>
+                    <div class="repo-stats">
+                        <span class="repo-stat">⭐ ${formatNumber(repo.stars)}</span>
+                        <span class="repo-stat">🍴 ${formatNumber(repo.forks)}</span>
+                        <span class="repo-updated">Updated ${formatRelativeTime(repo.updatedAt)}</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        // Show error state
+        function showError() {
+            document.querySelectorAll('.github-loading').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.github-error').forEach(el => el.style.display = 'block');
+        }
+        
+        // Show content
+        function showContent() {
+            document.querySelectorAll('.github-loading').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.github-error').forEach(el => el.style.display = 'none');
+            document.querySelector('.github-commits').style.display = 'block';
+            document.querySelector('.github-repos').style.display = 'block';
+        }
+        
+        // Fetch GitHub data
+        async function fetchGitHubData() {
+            try {
+                const response = await fetch('/api/github');
+                const data = await response.json();
+                
+                if (data.error || (!data.commits && !data.repos)) {
+                    throw new Error('API returned error');
+                }
+                
+                githubData = data;
+                renderCommits(data.commits);
+                renderRepos(data.repos);
+                showContent();
+                
+            } catch (error) {
+                console.error('Failed to fetch GitHub data:', error);
+                showError();
+            }
+        }
+        
+        // Tab switching functionality
+        function initTabs() {
+            const tabs = document.querySelectorAll('.github-tab');
+            const panels = document.querySelectorAll('.github-panel');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    
+                    // Update tab states
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    
+                    // Update panel states
+                    panels.forEach(panel => {
+                        panel.classList.remove('active');
+                        panel.style.display = 'none';
+                    });
+                    
+                    const targetPanel = document.getElementById(`${targetTab}-panel`);
+                    targetPanel.classList.add('active');
+                    targetPanel.style.display = 'block';
+                });
+            });
+        }
+        
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initTabs();
+                fetchGitHubData();
+            });
+        } else {
+            initTabs();
+            fetchGitHubData();
+        }
+    })();
+    </script>
 </body>
 </html>
