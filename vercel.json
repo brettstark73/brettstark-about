@@ -1,6 +1,5 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "public": true,
   "headers": [
     {
       "source": "/(.*)",
@@ -20,5 +19,8 @@
         }
       ]
     }
-  ]
-}
+  ],
+  "github": {
+    "enabled": false,
+    "silent": true
+  }}

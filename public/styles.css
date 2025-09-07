@@ -438,8 +438,9 @@ a:focus-visible,
 
 /* GitHub Activity Styles */
 .github-activity {
-    padding: 3rem 0;
-    background: var(--background);
+    background: var(--surface);
+    padding: 4rem 0;
+    margin-bottom: 4rem;
 }
 
 .github-activity h3 {
@@ -450,379 +451,33 @@ a:focus-visible,
     color: var(--text-primary);
 }
 
-.github-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.github-tab {
-    background: transparent;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-}
-
-.github-tab:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-2px);
-}
-
-.github-tab.active {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-}
-
-.github-tab:focus-visible {
-    outline: 3px solid var(--primary-hover);
-    outline-offset: 2px;
-}
-
 .github-content {
     max-width: 900px;
     margin: 0 auto;
-}
-
-.github-panel {
-    min-height: 200px;
-}
-
-.github-loading,
-.github-error,
-.github-empty {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-}
-
-.github-error a,
-.github-empty a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.github-error a:hover,
-.github-empty a:hover {
-    text-decoration: underline;
-}
-
-/* Commits List */
-.github-commits {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    gap: 2rem;
 }
 
-.github-commit-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
+.github-content iframe,
+.github-content img {
     border-radius: 8px;
-    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    background: var(--background);
     transition: all 0.3s ease;
 }
 
-.github-commit-item:hover {
+.github-content iframe:hover,
+.github-content img:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary-color);
-}
-
-.commit-repo {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.commit-repo a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.commit-repo a:hover {
-    text-decoration: underline;
-}
-
-.commit-message {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-}
-
-.commit-message a {
-    color: var(--text-primary);
-    text-decoration: none;
-}
-
-.commit-message a:hover {
-    color: var(--primary-color);
-}
-
-.commit-time {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    opacity: 0.8;
-}
-
-/* Repositories Grid */
-.github-repos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.github-repo-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-.github-repo-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary-color);
-}
-
-.repo-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-}
-
-.repo-header h4 {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-}
-
-.repo-header h4 a {
-    color: var(--text-primary);
-    text-decoration: none;
-}
-
-.repo-header h4 a:hover {
-    color: var(--primary-color);
-}
-
-.repo-language {
-    background: var(--primary-color);
-    color: white;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-.repo-description {
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.4;
-    font-size: 0.875rem;
-}
-
-.repo-stats {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.repo-stat {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.repo-updated {
-    margin-left: auto;
-    opacity: 0.8;
-}
-
-/* Contribution Calendar */
-.github-contributions {
-    padding: 1rem 0;
-}
-
-.contributions-summary {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-.contributions-count {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.contributions-calendar {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-    gap: 2px;
-    max-width: 500px;
-    height: 100px;
-    margin: 0 auto 1rem auto;
-    padding: 1rem;
-    background: var(--surface);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.contribution-square {
-    width: 100%;
-    height: 100%;
-    min-width: 10px;
-    min-height: 10px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-.contribution-square.level-0 {
-    background: var(--background);
-    border: 1px solid var(--border);
-}
-
-.contribution-square.level-1 {
-    background: #0e4429;
-}
-
-.contribution-square.level-2 {
-    background: #006d32;
-}
-
-.contribution-square.level-3 {
-    background: #26a641;
-}
-
-.contribution-square.level-4 {
-    background: #39d353;
-}
-
-.contribution-square:hover {
-    transform: scale(1.1);
-    outline: 2px solid var(--primary-color);
-}
-
-.contributions-legend {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.legend-colors {
-    display: flex;
-    gap: 2px;
-}
-
-.legend-square {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-}
-
-.legend-square.level-0 {
-    background: var(--background);
-    border: 1px solid var(--border);
-}
-
-.legend-square.level-1 {
-    background: #0e4429;
-}
-
-.legend-square.level-2 {
-    background: #006d32;
-}
-
-.legend-square.level-3 {
-    background: #26a641;
-}
-
-.legend-square.level-4 {
-    background: #39d353;
-}
-
-.contribution-tooltip {
-    position: absolute;
-    background: #1f2937;
-    color: white;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    z-index: 10;
-    pointer-events: none;
-    transform: translate(-50%, -100%);
-    top: -8px;
-    left: 50%;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.contribution-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 4px solid transparent;
-    border-top-color: #1f2937;
-}
-
-.contribution-tooltip.show {
-    opacity: 1;
+    box-shadow: var(--shadow-lg);
 }
 
 /* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
-    .github-activity {
-        background: var(--background);
-    }
-    
-    .github-commit-item,
-    .github-repo-item {
-        background: var(--surface);
-        border-color: var(--border);
-    }
-    
-    .github-commit-item:hover,
-    .github-repo-item:hover {
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-    }
-    
-    .contributions-calendar {
-        background: var(--surface);
-        border-color: var(--border);
-    }
-    
-    .contribution-square.level-0 {
-        background: #161b22;
-        border-color: var(--border);
-    }
-    
-    .legend-square.level-0 {
-        background: #161b22;
-        border-color: var(--border);
+    .github-content iframe,
+    .github-content img {
+        border: 1px solid var(--border);
     }
 }

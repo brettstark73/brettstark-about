@@ -1,14 +1,25 @@
 {
   "name": "brett-stark-about-me",
   "version": "1.0.0",
+  "type": "module",
   "description": "Professional About Me page for Brett Stark",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
+    "dev": "node server.js",
+    "serve": "python -m http.server 3000 --directory public",
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod"
   },
-  "keywords": ["brett-stark", "about-me", "portfolio", "ai-second-act"],
+  "keywords": [
+    "brett-stark",
+    "about-me",
+    "portfolio",
+    "ai-second-act"
+  ],
   "author": "Brett Stark",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
 }

@@ -9,20 +9,20 @@
     <meta name="theme-color" content="#667eea">
 
     <!-- SEO & Social Previews -->
-    <link rel="canonical" href="https://about.brettstark.com">
+    <link rel="canonical" href="https://brett-stark-about.vercel.app">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="manifest" href="/site.webmanifest">
     
     <meta property="og:title" content="Brett Stark - Tech Leader & AI Strategist">
     <meta property="og:description" content="Director of Program Management with 30+ years in tech, building AI Second Act newsletter for mid-career professionals">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://about.brettstark.com">
-    <meta property="og:image" content="https://about.brettstark.com/og-image.png">
+    <meta property="og:url" content="https://brett-stark-about.vercel.app">
+    <meta property="og:image" content="/og-image.png">
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Brett Stark - Tech Leader & AI Strategist">
     <meta name="twitter:description" content="Director of Program Management with 30+ years in tech, building AI Second Act newsletter for mid-career professionals">
-    <meta name="twitter:image" content="https://about.brettstark.com/og-image.png">
+    <meta name="twitter:image" content="/og-image.png">
     
     <!-- Preload CSS -->
     <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -163,58 +163,9 @@
         <section class="github-activity">
             <div class="container">
                 <h3>GitHub Activity</h3>
-                <div class="github-tabs">
-                    <button class="github-tab active" data-tab="activity" aria-controls="activity-panel" role="tab" aria-selected="true">Activity</button>
-                    <button class="github-tab" data-tab="commits" aria-controls="commits-panel" role="tab" aria-selected="false">Commits</button>
-                    <button class="github-tab" data-tab="repos" aria-controls="repos-panel" role="tab" aria-selected="false">Repos</button>
-                </div>
-                
                 <div class="github-content">
-                    <div id="activity-panel" class="github-panel active" role="tabpanel" aria-labelledby="activity-tab">
-                        <div class="github-loading">
-                            <p>Loading contribution activity...</p>
-                        </div>
-                        <div class="github-error" style="display: none;">
-                            <p>Unable to load GitHub activity. <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View my GitHub profile</a></p>
-                        </div>
-                        <div class="github-contributions" style="display: none;">
-                            <div class="contributions-summary">
-                                <span class="contributions-count"></span> contributions in the last 12 weeks
-                            </div>
-                            <div class="contributions-calendar"></div>
-                            <div class="contributions-legend">
-                                <span>Less</span>
-                                <div class="legend-colors">
-                                    <div class="legend-square level-0"></div>
-                                    <div class="legend-square level-1"></div>
-                                    <div class="legend-square level-2"></div>
-                                    <div class="legend-square level-3"></div>
-                                    <div class="legend-square level-4"></div>
-                                </div>
-                                <span>More</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="commits-panel" class="github-panel" role="tabpanel" aria-labelledby="commits-tab" style="display: none;">
-                        <div class="github-loading">
-                            <p>Loading recent commits...</p>
-                        </div>
-                        <div class="github-error" style="display: none;">
-                            <p>Unable to load GitHub activity. <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View my GitHub profile</a></p>
-                        </div>
-                        <ul class="github-commits" style="display: none;"></ul>
-                    </div>
-                    
-                    <div id="repos-panel" class="github-panel" role="tabpanel" aria-labelledby="repos-tab" style="display: none;">
-                        <div class="github-loading">
-                            <p>Loading recent repositories...</p>
-                        </div>
-                        <div class="github-error" style="display: none;">
-                            <p>Unable to load repositories. <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View my GitHub profile</a></p>
-                        </div>
-                        <div class="github-repos" style="display: none;"></div>
-                    </div>
+                    <iframe src="https://github-readme-activity-graph.vercel.app/graph?username=brettstark73&theme=github" width="100%" height="250" frameborder="0"></iframe>
+                    <img src="https://github-readme-stats.vercel.app/api?username=brettstark73&show_icons=true&theme=default" alt="GitHub Stats" style="width: 100%; max-width: 495px; margin: 20px auto; display: block;">
                 </div>
             </div>
         </section>
@@ -234,252 +185,5 @@
         </div>
     </footer>
 
-    <script>
-    // GitHub Activity functionality
-    (function() {
-        let githubData = null;
-        
-        // Utility function to escape HTML
-        function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-        
-        // Format relative time
-        function formatRelativeTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            
-            const minutes = Math.floor(diff / (1000 * 60));
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
-            if (minutes < 60) return `${minutes}m ago`;
-            if (hours < 24) return `${hours}h ago`;
-            return `${days}d ago`;
-        }
-        
-        // Format number with k suffix
-        function formatNumber(num) {
-            if (num >= 1000) {
-                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-            }
-            return num.toString();
-        }
-        
-        // Render contribution calendar
-        function renderContributions(contributions) {
-            console.log('renderContributions called with:', contributions);
-            const container = document.querySelector('.github-contributions');
-            const countElement = document.querySelector('.contributions-count');
-            const calendarElement = document.querySelector('.contributions-calendar');
-            
-            console.log('Calendar elements:', {container, countElement, calendarElement});
-            
-            if (!contributions || !contributions.calendar || contributions.calendar.length === 0) {
-                console.log('No contribution data, showing empty state');
-                container.innerHTML = '<div class="github-empty">No contribution data available</div>';
-                return;
-            }
-            
-            // Update contribution count
-            countElement.textContent = contributions.totalContributions;
-            
-            // Render calendar grid
-            const squares = contributions.calendar.map(day => {
-                const date = new Date(day.date);
-                const dateStr = date.toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-                const contributionText = day.count === 1 ? '1 contribution' : `${day.count} contributions`;
-                
-                return `
-                    <div class="contribution-square level-${day.level}" 
-                         data-date="${day.date}" 
-                         data-count="${day.count}"
-                         title="${contributionText} on ${dateStr}">
-                    </div>
-                `;
-            }).join('');
-            
-            calendarElement.innerHTML = squares;
-            console.log('Calendar squares rendered:', squares.length, 'characters');
-            console.log('First few squares:', squares.substring(0, 200));
-            
-            // Add hover effects with tooltips
-            const squareElements = calendarElement.querySelectorAll('.contribution-square');
-            console.log('Found square elements:', squareElements.length);
-            squareElements.forEach(square => {
-                square.addEventListener('mouseenter', showTooltip);
-                square.addEventListener('mouseleave', hideTooltip);
-            });
-        }
-        
-        function showTooltip(event) {
-            const square = event.target;
-            const date = new Date(square.dataset.date);
-            const count = square.dataset.count;
-            const dateStr = date.toLocaleDateString('en-US', { 
-                weekday: 'short', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-            const contributionText = count === '1' ? '1 contribution' : `${count} contributions`;
-            
-            const tooltip = document.createElement('div');
-            tooltip.className = 'contribution-tooltip show';
-            tooltip.textContent = `${contributionText} on ${dateStr}`;
-            
-            square.appendChild(tooltip);
-        }
-        
-        function hideTooltip(event) {
-            const tooltip = event.target.querySelector('.contribution-tooltip');
-            if (tooltip) {
-                tooltip.remove();
-            }
-        }
-        
-        // Render commits
-        function renderCommits(commits) {
-            const container = document.querySelector('.github-commits');
-            
-            if (!commits || commits.length === 0) {
-                container.innerHTML = '<li class="github-empty">No recent commits found</li>';
-                return;
-            }
-            
-            const html = commits.map(commit => `
-                <li class="github-commit-item">
-                    <div class="commit-repo">
-                        <a href="${escapeHtml(commit.repoUrl)}" target="_blank" rel="noopener noreferrer">
-                            ${escapeHtml(commit.repo)}
-                        </a>
-                    </div>
-                    <div class="commit-message">
-                        <a href="${escapeHtml(commit.commitUrl)}" target="_blank" rel="noopener noreferrer">
-                            ${escapeHtml(commit.message)}
-                        </a>
-                    </div>
-                    <div class="commit-time">${formatRelativeTime(commit.timestamp)}</div>
-                </li>
-            `).join('');
-            
-            container.innerHTML = html;
-        }
-        
-        // Render repositories
-        function renderRepos(repos) {
-            const container = document.querySelector('.github-repos');
-            
-            if (!repos || repos.length === 0) {
-                container.innerHTML = '<div class="github-empty">No recent repositories found</div>';
-                return;
-            }
-            
-            const html = repos.map(repo => `
-                <div class="github-repo-item">
-                    <div class="repo-header">
-                        <h4><a href="${escapeHtml(repo.htmlUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(repo.name)}</a></h4>
-                        ${repo.language ? `<span class="repo-language">${escapeHtml(repo.language)}</span>` : ''}
-                    </div>
-                    <p class="repo-description">${escapeHtml(repo.description)}</p>
-                    <div class="repo-stats">
-                        <span class="repo-stat">⭐ ${formatNumber(repo.stars)}</span>
-                        <span class="repo-stat">🍴 ${formatNumber(repo.forks)}</span>
-                        <span class="repo-updated">Updated ${formatRelativeTime(repo.updatedAt)}</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            container.innerHTML = html;
-        }
-        
-        // Show error state
-        function showError() {
-            document.querySelectorAll('.github-loading').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.github-error').forEach(el => el.style.display = 'block');
-        }
-        
-        // Show content
-        function showContent() {
-            document.querySelectorAll('.github-loading').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.github-error').forEach(el => el.style.display = 'none');
-            document.querySelector('.github-contributions').style.display = 'block';
-            document.querySelector('.github-commits').style.display = 'block';
-            document.querySelector('.github-repos').style.display = 'block';
-        }
-        
-        // Fetch GitHub data
-        async function fetchGitHubData() {
-            try {
-                const response = await fetch('/api/github');
-                const data = await response.json();
-                
-                if (data.error || (!data.commits && !data.repos)) {
-                    throw new Error('API returned error');
-                }
-                
-                githubData = data;
-                renderContributions(data.contributions);
-                renderCommits(data.commits);
-                renderRepos(data.repos);
-                showContent();
-                
-            } catch (error) {
-                console.error('Failed to fetch GitHub data:', error);
-                showError();
-            }
-        }
-        
-        // Tab switching functionality
-        function initTabs() {
-            const tabs = document.querySelectorAll('.github-tab');
-            const panels = document.querySelectorAll('.github-panel');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const targetTab = tab.dataset.tab;
-                    
-                    // Update tab states
-                    tabs.forEach(t => {
-                        t.classList.remove('active');
-                        t.setAttribute('aria-selected', 'false');
-                    });
-                    tab.classList.add('active');
-                    tab.setAttribute('aria-selected', 'true');
-                    
-                    // Update panel states
-                    panels.forEach(panel => {
-                        panel.classList.remove('active');
-                        panel.style.display = 'none';
-                    });
-                    
-                    const targetPanel = document.getElementById(`${targetTab}-panel`);
-                    targetPanel.classList.add('active');
-                    targetPanel.style.display = 'block';
-                });
-            });
-        }
-        
-        // Initialize on DOM ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                initTabs();
-                fetchGitHubData();
-            });
-        } else {
-            initTabs();
-            fetchGitHubData();
-        }
-    })();
-    </script>
 </body>
 </html>

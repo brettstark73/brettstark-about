@@ -1,0 +1,46 @@
+# Brett Stark About Me - Project Context
+
+## Project Overview
+Professional about me page for Brett Stark - static HTML/CSS site deployed on Vercel.
+
+## Tech Stack
+- HTML5 with semantic markup
+- CSS3 with custom properties (CSS variables)
+- Google Fonts (Inter)
+- Vercel for hosting
+- Plausible for analytics
+
+## Development Commands
+```bash
+npm run dev          # Start Vercel dev server
+npm run deploy       # Deploy to production
+git add . && git commit -m "message" && git push  # Standard git workflow
+```
+
+## File Structure
+```
+public/
+├── index.html       # Main page content
+├── styles.css       # All styling with responsive design
+├── og-image.png     # Social media preview
+└── favicon.ico      # Site icon
+```
+
+## Code Standards
+- Clean, semantic HTML
+- CSS custom properties for theming
+- Mobile-first responsive design
+- Accessibility features (skip links, focus states)
+- SEO optimized meta tags
+
+## Common Tasks
+- Update URLs when changing domains (canonical, og:url only - images are relative)
+- Test responsive design across breakpoints
+- Verify analytics and SEO meta tags
+- Maintain consistent styling with existing design system
+
+## Notes
+- Site uses relative URLs for images to avoid domain change issues
+- Dark mode support via CSS `prefers-color-scheme`
+- All styling in single CSS file for simplicity
+- Optimized for Core Web Vitals
