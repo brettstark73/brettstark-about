@@ -274,11 +274,15 @@
         
         // Render contribution calendar
         function renderContributions(contributions) {
+            console.log('renderContributions called with:', contributions);
             const container = document.querySelector('.github-contributions');
             const countElement = document.querySelector('.contributions-count');
             const calendarElement = document.querySelector('.contributions-calendar');
             
+            console.log('Calendar elements:', {container, countElement, calendarElement});
+            
             if (!contributions || !contributions.calendar || contributions.calendar.length === 0) {
+                console.log('No contribution data, showing empty state');
                 container.innerHTML = '<div class="github-empty">No contribution data available</div>';
                 return;
             }
@@ -306,9 +310,12 @@
             }).join('');
             
             calendarElement.innerHTML = squares;
+            console.log('Calendar squares rendered:', squares.length, 'characters');
+            console.log('First few squares:', squares.substring(0, 200));
             
             // Add hover effects with tooltips
             const squareElements = calendarElement.querySelectorAll('.contribution-square');
+            console.log('Found square elements:', squareElements.length);
             squareElements.forEach(square => {
                 square.addEventListener('mouseenter', showTooltip);
                 square.addEventListener('mouseleave', hideTooltip);
