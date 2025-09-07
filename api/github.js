@@ -10,6 +10,61 @@ const CACHE_DURATION = 12 * 60 * 1000; // 12 minutes in milliseconds
 // In-memory cache for serverless functions
 const cache = new Map();
 
+function generateContributionCalendar(events) {
+  // Create a map of dates to contribution counts
+  const contributionMap = new Map();
+  
+  // Process events from the last 12 weeks
+  const now = new Date();
+  const twelveWeeksAgo = new Date(now - (12 * 7 * 24 * 60 * 60 * 1000));
+  
+  // Count contributions by date
+  events.forEach(event => {
+    const eventDate = new Date(event.created_at);
+    if (eventDate >= twelveWeeksAgo) {
+      const dateKey = eventDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      
+      // Count different event types as contributions
+      if (['PushEvent', 'CreateEvent', 'PullRequestEvent', 'IssuesEvent'].includes(event.type)) {
+        const currentCount = contributionMap.get(dateKey) || 0;
+        contributionMap.set(dateKey, currentCount + 1);
+      }
+    }
+  });
+  
+  // Generate calendar grid (12 weeks * 7 days = 84 days)
+  const calendar = [];
+  let totalContributions = 0;
+  
+  for (let i = 83; i >= 0; i--) {
+    const date = new Date(now - (i * 24 * 60 * 60 * 1000));
+    const dateKey = date.toISOString().split('T')[0];
+    const count = contributionMap.get(dateKey) || 0;
+    
+    totalContributions += count;
+    
+    calendar.push({
+      date: dateKey,
+      count: count,
+      level: getContributionLevel(count)
+    });
+  }
+  
+  return {
+    calendar,
+    totalContributions,
+    weeks: 12
+  };
+}
+
+function getContributionLevel(count) {
+  if (count === 0) return 0;
+  if (count <= 2) return 1;
+  if (count <= 4) return 2;
+  if (count <= 6) return 3;
+  return 4;
+}
+
 async function fetchGitHubData() {
   const headers = {
     'User-Agent': 'Brett-Stark-About-Me-Site',
@@ -23,7 +78,7 @@ async function fetchGitHubData() {
   try {
     // Fetch recent events and repositories in parallel
     const [eventsResponse, reposResponse] = await Promise.all([
-      fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=30`, { headers }),
+      fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=100`, { headers }),
       fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`, { headers })
     ]);
 
@@ -65,9 +120,13 @@ async function fetchGitHubData() {
       language: repo.language
     }));
 
+    // Generate contribution calendar data (last 12 weeks)
+    const contributionData = generateContributionCalendar(events);
+
     return {
       commits: commits.slice(0, 10),
       repos: formattedRepos.slice(0, 6),
+      contributions: contributionData,
       error: false
     };
 
@@ -76,6 +135,7 @@ async function fetchGitHubData() {
     return {
       commits: [],
       repos: [],
+      contributions: { calendar: [], totalContributions: 0, weeks: 12 },
       error: true,
       message: 'Unable to fetch GitHub data'
     };
