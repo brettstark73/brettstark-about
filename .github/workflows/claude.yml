@@ -1,0 +1,31 @@
+name: Claude Code Integration
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  issue_comment:
+    types: [created, edited]
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+  pull_request_review_comment:
+    types: [created, edited]
+
+jobs:
+  claude:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event.issue && contains(github.event.issue.body, '@claude')) ||
+      (github.event.comment && contains(github.event.comment.body, '@claude')) ||
+      (github.event.pull_request && contains(github.event.pull_request.body, '@claude')) ||
+      (github.event.review_comment && contains(github.event.review_comment.body, '@claude'))
+    
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    
+    steps:
+      - name: Claude Code Integration
+        uses: anthropics/claude-code-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
