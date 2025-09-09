@@ -452,7 +452,7 @@ a:focus-visible,
 }
 
 .github-content {
-    max-width: 800px;
+    max-width: 720px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -460,13 +460,21 @@ a:focus-visible,
     gap: 2rem;
 }
 
-.github-content iframe,
-.github-content img {
-    border-radius: 8px;
-    background: var(--background);
-    transition: all 0.3s ease;
-    box-shadow: none;
+.github-content iframe {
+    border: none;
     overflow: hidden;
+    background: transparent;
+}
+
+.github-stats {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -1rem;
+}
+
+.github-stats img {
+    border-radius: 8px;
 }
 
 .github-content iframe,
