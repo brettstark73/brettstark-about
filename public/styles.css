@@ -457,7 +457,15 @@ a:focus-visible,
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
+}
+
+.github-content iframe,
+.github-content img {
+    border-radius: 8px;
+    background: var(--background);
+    transition: all 0.3s ease;
+    box-shadow: none;
     overflow: hidden;
 }
 
