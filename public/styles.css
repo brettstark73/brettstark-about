@@ -452,18 +452,25 @@ a:focus-visible,
 }
 
 .github-content {
-    max-width: 720px;
+    max-width: 600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    overflow: hidden;
 }
 
 .github-content iframe {
-    border: none;
-    overflow: hidden;
+    border: none !important;
+    overflow: hidden !important;
     background: transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.github-content iframe::-webkit-scrollbar {
+    display: none;
 }
 
 .github-stats {
