@@ -447,26 +447,34 @@ a:focus-visible,
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 2rem;
-    text-align: center;
+    text-align: left;
     color: var(--text-primary);
 }
 
 .github-content {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
     overflow: hidden;
+}
+
+.github-widgets {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .github-content iframe {
     border: none !important;
     overflow: hidden !important;
     background: transparent;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    scrolling: no !important;
 }
 
 .github-content iframe::-webkit-scrollbar {
@@ -474,14 +482,15 @@ a:focus-visible,
 }
 
 .github-stats {
-    width: 100%;
+    width: auto;
     display: flex;
-    justify-content: center;
-    margin-top: -1rem;
+    justify-content: flex-start;
+    margin: 0;
 }
 
 .github-stats img {
     border-radius: 8px;
+    max-width: none;
 }
 
 .github-content iframe,

@@ -112,13 +112,11 @@ vercel env add GITHUB_TOKEN
 
 **Note:** The GitHub token is only used server-side and never exposed to the browser. Without a token, the API has lower rate limits but still functions.
 
-## Claude Code Preferences
-- **Always preview changes** before suggesting edits
-- **Maintain SEO features** - don't remove meta tags or structured data
+## Project-Specific Preferences
+- **Maintain SEO features** - don't remove meta tags or structured data  
 - **Keep accessibility** - preserve skip links and ARIA labels
 - **Follow existing CSS patterns** - use CSS custom properties
 - **Mobile-first approach** - test responsive behavior
-- **Performance conscious** - maintain fast loading times
 
 ## Helpful Context
 - **Domain:** about.brettstark.com (hosted on Vercel)
