@@ -1,0 +1,14 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "custom-property-pattern": null,
+    "selector-class-pattern": null,
+    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true }],
+    "function-name-case": ["lower", { "ignoreFunctions": ["DXImageTransform.Microsoft.Alpha"] }]
+  },
+  "ignoreFiles": [
+    "node_modules/**/*",
+    ".vercel/**/*",
+    "dist/**/*"
+  ]
+}

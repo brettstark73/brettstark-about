@@ -1,0 +1,174 @@
+name: Quality Checks
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+  schedule:
+    # Run weekly security scans on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+jobs:
+  lint-and-format:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npx eslint . --ext .js,.html --ignore-path .gitignore || true
+
+      - name: Check Prettier formatting
+        run: npx prettier --check "**/*.{js,html,css,json,md}" || true
+
+      - name: Run Stylelint
+        run: npx stylelint "**/*.css" || true
+
+  security-scan:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  lighthouse-ci:
+    name: Lighthouse Performance
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Build site (if needed)
+        run: echo "Static site - no build step needed"
+
+      - name: Start local server
+        run: |
+          cd public && python3 -m http.server 8080 &
+          sleep 5
+
+      - name: Run Lighthouse CI
+        run: lhci autorun --config=.lighthouserc.json
+        continue-on-error: true
+
+  accessibility-test:
+    name: Accessibility Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Pa11y
+        run: npm install -g pa11y
+
+      - name: Start local server
+        run: |
+          cd public && python3 -m http.server 8080 &
+          sleep 5
+
+      - name: Run accessibility tests
+        run: pa11y http://localhost:8080 --reporter json || true
+
+  full-security-scan:
+    name: Weekly Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run OWASP ZAP baseline scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: 'https://about.brettstark.com'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+  security-headers:
+    name: Security Headers Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'push'
+    steps:
+      - name: Check Security Headers
+        run: |
+          echo "Checking security headers for https://about.brettstark.com"
+          
+          # Check for common security headers
+          headers=$(curl -I -s https://about.brettstark.com)
+          
+          echo "Response headers:"
+          echo "$headers"
+          
+          # Check for specific security headers
+          if echo "$headers" | grep -i "strict-transport-security"; then
+            echo "✅ HSTS header found"
+          else
+            echo "⚠️  HSTS header missing"
+          fi
+          
+          if echo "$headers" | grep -i "content-security-policy"; then
+            echo "✅ CSP header found"  
+          else
+            echo "⚠️  CSP header missing"
+          fi
+          
+          if echo "$headers" | grep -i "x-frame-options"; then
+            echo "✅ X-Frame-Options header found"
+          else
+            echo "⚠️  X-Frame-Options header missing"  
+          fi
+          
+          if echo "$headers" | grep -i "x-content-type-options"; then
+            echo "✅ X-Content-Type-Options header found"
+          else
+            echo "⚠️  X-Content-Type-Options header missing"
+          fi

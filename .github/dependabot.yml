@@ -1,0 +1,31 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "brettstark73"
+    assignees:
+      - "brettstark73"
+    commit-message:
+      prefix: "deps:"
+      include: "scope"
+    groups:
+      dev-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "@types/*"
+          - "eslint*"
+          - "prettier"
+          - "stylelint*"
+          - "husky"
+          - "lint-staged"
+      production-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "express"
+          - "node-fetch"

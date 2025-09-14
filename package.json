@@ -8,7 +8,11 @@
     "dev": "node server.js",
     "serve": "python -m http.server 3000 --directory public",
     "build": "echo 'Static site - no build needed'",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "prepare": "husky",
+    "lint": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
+    "format": "prettier --write **/*.{js,html,css,json,md}",
+    "quality": "npm run format && npm run lint && npm audit"
   },
   "keywords": [
     "brett-stark",
@@ -21,5 +25,26 @@
   "dependencies": {
     "express": "^5.1.0",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
+  },
+  "lint-staged": {
+    "public/**/*.{js,html}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "public/**/*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }

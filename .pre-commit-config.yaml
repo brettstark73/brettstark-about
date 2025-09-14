@@ -1,0 +1,20 @@
+repos:
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Prettier
+        entry: npx prettier --write
+        language: system
+        files: \.(js|html|css|json|md)$
+        
+      - id: eslint
+        name: ESLint
+        entry: npx eslint --fix
+        language: system
+        files: \.(js|html)$
+        
+      - id: stylelint
+        name: Stylelint
+        entry: npx stylelint --fix
+        language: system
+        files: \.css$
