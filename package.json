@@ -35,15 +35,15 @@
     "lint-staged": "^15.2.2"
   },
   "lint-staged": {
-    "public/**/*.{js,html}": [
+    "**/*.{js,html}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "public/**/*.css": [
+    "**/*.css": [
       "stylelint --fix",
       "prettier --write"
     ],
-    "*.{json,md}": [
+    "**/*.{json,md}": [
       "prettier --write"
     ]
   }
