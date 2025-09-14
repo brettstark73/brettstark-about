@@ -3,19 +3,27 @@
   "framework": "vanilla-html-css",
   "deployment": "vercel",
   "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit",
-      "hooks": [{
-        "type": "command",
-        "command": "echo 'Updated: %FILE_PATH% - Remember to test responsive design'"
-      }]
-    }],
-    "UserPromptSubmit": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "echo 'Deploying about me page...'"
-      }]
-    }]
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Updated: %FILE_PATH% - Remember to test responsive design'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Deploying about me page...'"
+          }
+        ]
+      }
+    ]
   }
 }

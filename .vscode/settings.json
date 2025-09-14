@@ -6,13 +6,8 @@
     "source.fixAll.stylelint": "explicit"
   },
   "prettier.requireConfig": true,
-  "eslint.validate": [
-    "javascript", 
-    "html"
-  ],
-  "stylelint.validate": [
-    "css"
-  ],
+  "eslint.validate": ["javascript", "html"],
+  "stylelint.validate": ["css"],
   "files.associations": {
     "*.html": "html"
   }

@@ -15,9 +15,5 @@
     "prefer-const": "error",
     "no-var": "error"
   },
-  "ignorePatterns": [
-    "node_modules/",
-    ".vercel/",
-    "dist/"
-  ]
+  "ignorePatterns": ["node_modules/", ".vercel/", "dist/", "**/*.html"]
 }
