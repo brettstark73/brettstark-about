@@ -31,8 +31,8 @@ export default async function handler(req, res) {
     // Fetch user info and repositories in parallel
     const [userResponse, reposResponse, eventsResponse] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, { headers }),
-      fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`, { headers }),
-      fetch(`https://api.github.com/users/${username}/events/public?per_page=10`, { headers })
+      fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=3`, { headers }),
+      fetch(`https://api.github.com/users/${username}/events/public?per_page=6`, { headers })
     ]);
 
     if (!userResponse.ok || !reposResponse.ok || !eventsResponse.ok) {
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     // Filter for meaningful commit events
     const recentCommits = events
       .filter(event => event.type === 'PushEvent')
-      .slice(0, 5)
+      .slice(0, 3)
       .map(event => ({
         id: event.id,
         repo: event.repo.name,
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       }));
 
     // Format repository data
-    const topRepos = repos.slice(0, 5).map(repo => ({
+    const topRepos = repos.slice(0, 3).map(repo => ({
       id: repo.id,
       name: repo.name,
       description: repo.description,

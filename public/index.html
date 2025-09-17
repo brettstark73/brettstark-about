@@ -529,7 +529,7 @@
                 <h5><a href="${repo.url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h5>
                 <span class="repo-language">${repo.language || 'N/A'}</span>
               </div>
-              <p class="repo-description">${repo.description || 'No description available'}</p>
+              ${repo.description ? `<p class="repo-description">${repo.description.length > 60 ? repo.description.substring(0, 60) + '...' : repo.description}</p>` : ''}
               <div class="repo-stats">
                 <span>⭐ ${repo.stars}</span>
                 <span>Updated ${formatDate(repo.updated)}</span>
@@ -545,7 +545,7 @@
                 <a href="${commit.url}" target="_blank" rel="noopener noreferrer">${commit.repo}</a>
                 <span class="commit-date">${formatDate(commit.date)}</span>
               </div>
-              <p class="commit-message">${commit.message}</p>
+              <p class="commit-message">${commit.message.length > 50 ? commit.message.substring(0, 50) + '...' : commit.message}</p>
             </div>
           `).join('');
 
