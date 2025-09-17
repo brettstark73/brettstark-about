@@ -27,6 +27,15 @@ echo 'Static site - no build needed'
 vercel --prod
 ```
 
+**Verify Custom Domain (Post-Deploy):**
+
+```bash
+# Check domain is properly assigned
+vercel domains inspect about.brettstark.com
+# If domain missing, re-add it
+vercel domains add about.brettstark.com
+```
+
 **Local Preview:**
 
 ```bash
