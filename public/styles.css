@@ -465,27 +465,30 @@ a:focus-visible,
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  min-width: 0; /* Prevent grid overflow */
 }
 
 .activity-widget {
   background: white;
   border-radius: 12px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+  min-width: 0; /* Prevent overflow */
 }
 
 .activity-widget:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .widget-header {
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 1.25rem 1.25rem 1rem;
   border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .widget-header h4 {
@@ -834,7 +837,7 @@ a:focus-visible,
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .activity-widgets {
     grid-template-columns: 1fr;
   }
