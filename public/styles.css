@@ -446,14 +446,14 @@ a:focus-visible,
   }
 }
 
-/* Activity Section */
-.activity-section {
+/* Activity Section - Simplified */
+.activity {
   background: var(--surface);
   padding: 4rem 0;
   margin-bottom: 4rem;
 }
 
-.activity-section h3 {
+.activity h3 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 2rem;
@@ -461,246 +461,45 @@ a:focus-visible,
   color: var(--text-primary);
 }
 
-.activity-widgets {
+.activity-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  min-width: 0; /* Prevent grid overflow */
 }
 
-.activity-widget {
+.card {
   background: white;
   border-radius: 12px;
   border: 1px solid var(--border);
+  padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  min-width: 0; /* Prevent overflow */
+  transition: all 0.3s ease;
 }
 
-.activity-widget:hover {
+.card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.widget-header {
-  padding: 1.25rem 1.25rem 1rem;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-}
-
-.widget-header h4 {
+.card h4 {
+  margin: 0 0 1rem 0;
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin: 0;
 }
 
-.widget-loading {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-}
-
-.widget-content {
-  padding: 1rem;
-}
-
-/* GitHub Widget Styles */
-.github-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.github-tab {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.github-tab:hover {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-.github-tab.active {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-.tab-content {
-  position: relative;
-}
-
-.github-repos,
-.github-commits {
-  display: none;
-}
-
-.github-repos.active,
-.github-commits.active {
+.card a {
   display: block;
-}
-
-.github-repo-item,
-.github-commit-item {
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
-  background: var(--surface);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-.github-repo-item:hover,
-.github-commit-item:hover {
-  border-color: var(--primary-color);
-  background: white;
-}
-
-.github-repo-item:last-child,
-.github-commit-item:last-child {
-  margin-bottom: 0;
-}
-
-.repo-header,
-.commit-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.repo-header h5,
-.commit-header a {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.repo-language,
-.activity-type {
-  background: var(--primary-color);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.commit-date {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.repo-description,
-.commit-message {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin: 0.5rem 0;
-  line-height: 1.4;
-}
-
-.repo-stats,
-.activity-stats {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-/* Strava Widget Styles */
-.strava-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: var(--surface);
-  border-radius: 8px;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  margin-bottom: 0.25rem;
-}
-
-.stat-label {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.strava-activity-item {
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
-  background: var(--surface);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-.strava-activity-item:hover {
-  border-color: var(--primary-color);
-  background: white;
-}
-
-.strava-activity-item:last-child {
-  margin-bottom: 0;
-}
-
-.activity-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.activity-header h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.github-link,
-.strava-link {
-  text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
-}
-
-.github-link a,
-.strava-link a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.875rem;
-  transition: color 0.3s ease;
+  text-align: center;
 }
 
-.github-link a:hover,
-.strava-link a:hover {
+.card a:hover {
   color: var(--primary-hover);
 }
 
@@ -838,36 +637,8 @@ a:focus-visible,
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-  .activity-widgets {
+  .activity-grid {
     grid-template-columns: 1fr;
-  }
-
-  .github-tabs {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .github-tab {
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-  }
-
-  .strava-stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .github-commit-item,
-  .github-repo-item,
-  .strava-activity-item {
-    padding: 0.875rem;
-  }
-
-  .widget-content {
-    padding: 1rem;
-  }
-
-  .widget-header {
-    padding: 1rem;
   }
   
   .newsletter-stats-card .stats-grid {

@@ -306,67 +306,19 @@
         </div>
       </section>
 
-      <section class="activity-section">
+      <section class="activity">
         <div class="container">
           <h3>Recent Activity</h3>
-          <div class="activity-widgets">
-            <!-- GitHub Widget -->
-            <div class="activity-widget">
-              <div class="widget-header">
-                <h4>🔧 GitHub</h4>
-                <div class="widget-loading" id="github-loading">Loading...</div>
-              </div>
-              <div class="widget-content" id="github-content" style="display: none;">
-                <div class="github-tabs">
-                  <button class="github-tab active" data-tab="repos">Repositories</button>
-                  <button class="github-tab" data-tab="commits">Recent Commits</button>
-                </div>
-                <div class="tab-content">
-                  <div class="github-repos active" id="repos-content">
-                    <!-- Repository list will be populated by JavaScript -->
-                  </div>
-                  <div class="github-commits" id="commits-content">
-                    <!-- Commits list will be populated by JavaScript -->
-                  </div>
-                </div>
-                <div class="github-link">
-                  <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">
-                    View Profile →
-                  </a>
-                </div>
-              </div>
+          <div class="activity-grid">
+            <div class="card" id="github-card">
+              <h4>🔧 GitHub</h4>
+              <div id="github-data">Loading...</div>
+              <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View Profile →</a>
             </div>
-
-            <!-- Strava Widget -->
-            <div class="activity-widget">
-              <div class="widget-header">
-                <h4>🏃‍♂️ Strava</h4>
-                <div class="widget-loading" id="strava-loading">Loading...</div>
-              </div>
-              <div class="widget-content" id="strava-content" style="display: none;">
-                <div class="strava-stats">
-                  <div class="stat-item">
-                    <div class="stat-number" id="strava-weekly-distance">0</div>
-                    <div class="stat-label">Weekly km</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-number" id="strava-avg-pace">0:00</div>
-                    <div class="stat-label">Avg Pace</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-number" id="strava-activities">0</div>
-                    <div class="stat-label">Activities</div>
-                  </div>
-                </div>
-                <div class="strava-activities" id="strava-activities-list">
-                  <!-- Activities will be populated by JavaScript -->
-                </div>
-                <div class="strava-link">
-                  <a href="https://www.strava.com/athletes/brettstark" target="_blank" rel="noopener noreferrer">
-                    View Profile →
-                  </a>
-                </div>
-              </div>
+            <div class="card" id="strava-card">
+              <h4>🏃‍♂️ Strava</h4>
+              <div id="strava-data">Loading...</div>
+              <a href="https://www.strava.com/athletes/brettstark" target="_blank" rel="noopener noreferrer">View Profile →</a>
             </div>
           </div>
         </div>
@@ -407,35 +359,9 @@
         // Load newsletter stats
         loadNewsletterStats();
 
-        // Tab switching for GitHub widget
-        const githubTabs = document.querySelectorAll('.github-tab');
-        githubTabs.forEach(tab => {
-          tab.addEventListener('click', function() {
-            const targetTab = this.dataset.tab;
-
-            // Update active tab
-            githubTabs.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-
-            // Update active content
-            const reposContent = document.getElementById('repos-content');
-            const commitsContent = document.getElementById('commits-content');
-
-            if (targetTab === 'repos') {
-              reposContent.classList.add('active');
-              commitsContent.classList.remove('active');
-            } else {
-              reposContent.classList.remove('active');
-              commitsContent.classList.add('active');
-            }
-          });
-        });
-
-        // Load GitHub data
-        loadGitHubData();
-
-        // Load Strava data
-        loadStravaData();
+        // Load simplified widgets
+        loadGitHub();
+        loadStrava();
       });
 
       // Newsletter Stats functionality
@@ -510,111 +436,38 @@
         }, 150);
       }
 
-      async function loadGitHubData() {
+      async function loadGitHub() {
         try {
           const response = await fetch('/api/github');
-          if (!response.ok) throw new Error('Failed to fetch GitHub data');
-
           const data = await response.json();
 
-          // Hide loading, show content
-          document.getElementById('github-loading').style.display = 'none';
-          document.getElementById('github-content').style.display = 'block';
-
-          // Populate repositories
-          const reposContainer = document.getElementById('repos-content');
-          reposContainer.innerHTML = data.repos.map(repo => `
-            <div class="github-repo-item">
-              <div class="repo-header">
-                <h5><a href="${repo.url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h5>
-                <span class="repo-language">${repo.language || 'N/A'}</span>
-              </div>
-              ${repo.description ? `<p class="repo-description">${repo.description.length > 60 ? repo.description.substring(0, 60) + '...' : repo.description}</p>` : ''}
-              <div class="repo-stats">
-                <span>⭐ ${repo.stars}</span>
-                <span>Updated ${formatDate(repo.updated)}</span>
-              </div>
+          document.getElementById('github-data').innerHTML = `
+            <div>📊 ${data.stats.totalRepos} repos • ${data.stats.totalCommits} commits</div>
+            <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
+              Latest: ${data.repos[0]?.name || 'No repos'} • ${data.commits[0]?.message.substring(0, 40) || 'No commits'}...
             </div>
-          `).join('');
-
-          // Populate commits
-          const commitsContainer = document.getElementById('commits-content');
-          commitsContainer.innerHTML = data.commits.map(commit => `
-            <div class="github-commit-item">
-              <div class="commit-header">
-                <a href="${commit.url}" target="_blank" rel="noopener noreferrer">${commit.repo}</a>
-                <span class="commit-date">${formatDate(commit.date)}</span>
-              </div>
-              <p class="commit-message">${commit.message.length > 50 ? commit.message.substring(0, 50) + '...' : commit.message}</p>
-            </div>
-          `).join('');
-
+          `;
         } catch (error) {
-          console.error('Error loading GitHub data:', error);
-          document.getElementById('github-loading').textContent = 'Failed to load GitHub data';
+          document.getElementById('github-data').textContent = 'Failed to load';
         }
       }
 
-      async function loadStravaData() {
+      async function loadStrava() {
         try {
           const response = await fetch('/api/strava');
-          if (!response.ok) throw new Error('Failed to fetch Strava data');
-
           const data = await response.json();
 
-          // Hide loading, show content
-          document.getElementById('strava-loading').style.display = 'none';
-          document.getElementById('strava-content').style.display = 'block';
-
-          // Update stats
-          document.getElementById('strava-weekly-distance').textContent = data.stats.weeklyDistance;
-          document.getElementById('strava-avg-pace').textContent = data.stats.avgPace;
-          document.getElementById('strava-activities').textContent = data.stats.totalActivities;
-
-          // Populate activities
-          const activitiesContainer = document.getElementById('strava-activities-list');
-          activitiesContainer.innerHTML = data.activities.map(activity => `
-            <div class="strava-activity-item">
-              <div class="activity-header">
-                <h5>${activity.name}</h5>
-                <span class="activity-type">${activity.type}</span>
-              </div>
-              <div class="activity-stats">
-                <span>${activity.distance}km</span>
-                <span>${formatDuration(activity.moving_time)}</span>
-                <span>${formatDate(activity.start_date)}</span>
-              </div>
+          document.getElementById('strava-data').innerHTML = `
+            <div>🏃‍♂️ ${data.stats.weeklyDistance}km this week • ${data.stats.avgPace} pace</div>
+            <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
+              Latest: ${data.activities[0]?.name || 'No activities'} • ${data.activities[0]?.distance || 0}km
             </div>
-          `).join('');
-
+          `;
         } catch (error) {
-          console.error('Error loading Strava data:', error);
-          document.getElementById('strava-loading').textContent = 'Failed to load Strava data';
+          document.getElementById('strava-data').textContent = 'Failed to load';
         }
       }
 
-      function formatDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 0) return 'Today';
-        if (diffDays === 1) return 'Yesterday';
-        if (diffDays < 7) return `${diffDays} days ago`;
-        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-        return date.toLocaleDateString();
-      }
-
-      function formatDuration(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-
-        if (hours > 0) {
-          return `${hours}h ${minutes}m`;
-        }
-        return `${minutes}m`;
-      }
 
       // Refresh newsletter stats every 30 minutes
       setInterval(loadNewsletterStats, 30 * 60 * 1000);
