@@ -18,12 +18,12 @@ export default async function handler(req, res) {
   try {
     const username = process.env.GITHUB_USERNAME || 'brettstark73';
     const token = process.env.GITHUB_TOKEN;
-    
+
     const headers = {
       'User-Agent': 'about-brettstark-site',
-      'Accept': 'application/vnd.github.v3+json',
+      Accept: 'application/vnd.github.v3+json',
     };
-    
+
     if (token) {
       headers['Authorization'] = `token ${token}`;
     }
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     const [userResponse, reposResponse, eventsResponse] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, { headers }),
       fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=3`, { headers }),
-      fetch(`https://api.github.com/users/${username}/events/public?per_page=6`, { headers })
+      fetch(`https://api.github.com/users/${username}/events/public?per_page=6`, { headers }),
     ]);
 
     if (!userResponse.ok || !reposResponse.ok || !eventsResponse.ok) {
@@ -45,25 +45,25 @@ export default async function handler(req, res) {
 
     // Filter for meaningful commit events
     const recentCommits = events
-      .filter(event => event.type === 'PushEvent')
+      .filter((event) => event.type === 'PushEvent')
       .slice(0, 3)
-      .map(event => ({
+      .map((event) => ({
         id: event.id,
         repo: event.repo.name,
         message: event.payload.commits[0]?.message || 'No commit message',
         date: event.created_at,
-        url: `https://github.com/${event.repo.name}`
+        url: `https://github.com/${event.repo.name}`,
       }));
 
     // Format repository data
-    const topRepos = repos.slice(0, 3).map(repo => ({
+    const topRepos = repos.slice(0, 3).map((repo) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description,
       language: repo.language,
       stars: repo.stargazers_count,
       url: repo.html_url,
-      updated: repo.updated_at
+      updated: repo.updated_at,
     }));
 
     const data = {
@@ -73,38 +73,37 @@ export default async function handler(req, res) {
         avatar_url: user.avatar_url,
         public_repos: user.public_repos,
         followers: user.followers,
-        following: user.following
+        following: user.following,
       },
       repos: topRepos,
       commits: recentCommits,
       stats: {
         totalRepos: user.public_repos,
         totalCommits: recentCommits.length,
-        languages: [...new Set(topRepos.map(repo => repo.language).filter(Boolean))].length,
-        topLanguage: getTopLanguage(topRepos)
-      }
+        languages: [...new Set(topRepos.map((repo) => repo.language).filter(Boolean))].length,
+        topLanguage: getTopLanguage(topRepos),
+      },
     };
 
     res.status(200).json(data);
   } catch (error) {
-    console.error('GitHub API Error:', error);
-    res.status(500).json({ 
+    // console.error('GitHub API Error:', error);
+    res.status(500).json({
       error: 'Failed to fetch GitHub data',
-      message: error.message 
+      message: error.message,
     });
   }
 }
 
 function getTopLanguage(repos) {
   const languageCount = {};
-  repos.forEach(repo => {
+  repos.forEach((repo) => {
     if (repo.language) {
       languageCount[repo.language] = (languageCount[repo.language] || 0) + 1;
     }
   });
-  
-  const sortedLanguages = Object.entries(languageCount)
-    .sort(([,a], [,b]) => b - a);
-    
+
+  const sortedLanguages = Object.entries(languageCount).sort(([, a], [, b]) => b - a);
+
   return sortedLanguages[0]?.[0] || 'JavaScript';
 }

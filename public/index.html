@@ -85,14 +85,14 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-image">
-            <div class="profile-initials" aria-label="Brett Stark's Initials: BS">BS</div>
+            <div class="profile-initials" role="img" aria-label="Brett Stark's initials">BS</div>
           </div>
           <div class="hero-text">
             <h1>Brett Stark</h1>
             <h2>Tech Leader & AI Strategist</h2>
             <p class="tagline">
               30+ years engineering excellence • From Adelaide Hills to Illinois • Program Director
-              adding AI thought leadership and expertise
+              adding AI thought leadership &amp; expertise
             </p>
             <div class="location">
               📍
@@ -160,7 +160,7 @@
             </div>
 
             <div class="bio-section">
-              <h3>Background & Interests</h3>
+              <h3>Background &amp; Interests</h3>
               <p>
                 <strong>• Australian Roots:</strong> Originally from Tom Price, raised in Adelaide
                 Hills, now embracing Midwest American life
@@ -271,40 +271,7 @@
         </div>
       </section>
 
-      <section class="newsletter-section">
-        <div class="container">
-          <h3>Newsletter</h3>
-          <div class="links-grid">
-            <div class="newsletter-stats-card">
-              <h4>🚀 AI Second Act</h4>
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <div class="stat-number" id="subscriber-count">850</div>
-                  <div class="stat-label">Subscribers</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number" id="total-posts">24</div>
-                  <div class="stat-label">Posts Published</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number" id="growth-rate">+12%</div>
-                  <div class="stat-label">Monthly Growth</div>
-                </div>
-              </div>
-              <p class="newsletter-description" id="newsletter-description">
-                Newsletter for mid-career AI transformation
-              </p>
-              <div class="newsletter-actions">
-                <a href="https://aisecondact.beehiiv.com" target="_blank" rel="noopener noreferrer" id="newsletter-link">
-                  Subscribe →
-                </a>
-                <span class="live-indicator" id="live-indicator" title="Live stats">●</span>
-              </div>
-              <small class="last-updated">Updated: <span id="last-updated">Just now</span></small>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       <section class="activity">
         <div class="container">
@@ -313,12 +280,30 @@
             <div class="card" id="github-card">
               <h4>🔧 GitHub</h4>
               <div id="github-data">Loading...</div>
-              <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer">View Profile →</a>
+              <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer"
+                >View Profile →</a
+              >
             </div>
             <div class="card" id="strava-card">
               <h4>🏃‍♂️ Strava</h4>
               <div id="strava-data">Loading...</div>
-              <a href="https://www.strava.com/athletes/brettstark" target="_blank" rel="noopener noreferrer">View Profile →</a>
+              <a
+                href="https://www.strava.com/athletes/brettstark"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View Profile →</a
+              >
+            </div>
+            <div class="card" id="beehiiv-card">
+              <h4>📰 Newsletter</h4>
+              <div id="beehiiv-data">Loading...</div>
+              <a
+                href="https://aisecondact.beehiiv.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                id="beehiiv-link"
+                >View Publication →</a
+              >
             </div>
           </div>
         </div>
@@ -354,96 +339,22 @@
       </div>
     </footer>
     <script>
-      // Combined functionality: Newsletter Stats and Activity Widgets
-      document.addEventListener('DOMContentLoaded', function() {
-        // Load newsletter stats
-        loadNewsletterStats();
-
-        // Load simplified widgets
+      // Load Activity Widgets
+      document.addEventListener('DOMContentLoaded', function () {
         loadGitHub();
         loadStrava();
+        loadBeehiivWidget();
       });
-
-      // Newsletter Stats functionality
-      async function loadNewsletterStats() {
-        try {
-          const response = await fetch('/api/beehiiv');
-          if (!response.ok) throw new Error('Failed to fetch stats');
-
-          const stats = await response.json();
-
-          // Update subscriber count with animation
-          updateStatNumber('subscriber-count', stats.subscriberCount);
-          updateStatNumber('total-posts', stats.totalPosts);
-
-          // Update description and link
-          if (stats.description) {
-            document.getElementById('newsletter-description').textContent = stats.description;
-          }
-
-          if (stats.url) {
-            document.getElementById('newsletter-link').href = stats.url;
-          }
-
-          // Update live indicator
-          const indicator = document.getElementById('live-indicator');
-          if (stats.isLive) {
-            indicator.className = 'live-indicator live';
-            indicator.title = 'Live stats from Beehiiv';
-          } else {
-            indicator.className = 'live-indicator fallback';
-            indicator.title = 'Fallback stats (API unavailable)';
-          }
-
-          // Update timestamp
-          const lastUpdated = new Date(stats.lastUpdated).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
-          document.getElementById('last-updated').textContent = lastUpdated;
-
-        } catch (error) {
-          console.error('Failed to load newsletter stats:', error);
-
-          // Set fallback indicator
-          const indicator = document.getElementById('live-indicator');
-          indicator.className = 'live-indicator fallback';
-          indicator.title = 'Unable to load live stats';
-        }
-      }
-
-      function updateStatNumber(elementId, newValue) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-
-        // Format numbers
-        let displayValue = newValue;
-        if (typeof newValue === 'number') {
-          if (newValue >= 1000) {
-            displayValue = (newValue / 1000).toFixed(1) + 'K';
-          } else {
-            displayValue = newValue.toString();
-          }
-        }
-
-        // Simple update with animation
-        element.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-          element.textContent = displayValue;
-          element.style.transform = 'scale(1)';
-        }, 150);
-      }
 
       async function loadGitHub() {
         try {
           const response = await fetch('/api/github');
           const data = await response.json();
 
-          document.getElementById('github-data').innerHTML = `
-            <div>📊 ${data.stats.totalRepos} repos • ${data.stats.totalCommits} commits</div>
-            <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
+          const githubData = document.getElementById('github-data');
+          githubData.innerHTML = `
+            <div class="stat-line">📊 ${data.stats.totalRepos} repos • ${data.stats.totalCommits} commits</div>
+            <div class="muted small" style="margin-top: 0.5rem;">
               Latest: ${data.repos[0]?.name || 'No repos'} • ${data.commits[0]?.message.substring(0, 40) || 'No commits'}...
             </div>
           `;
@@ -458,8 +369,8 @@
           const data = await response.json();
 
           document.getElementById('strava-data').innerHTML = `
-            <div>🏃‍♂️ ${data.stats.weeklyDistance}km this week • ${data.stats.avgPace} pace</div>
-            <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
+            <div class="stat-line">🏃‍♂️ ${data.stats.weeklyDistance}km this week • ${data.stats.avgPace} pace</div>
+            <div class="muted small" style="margin-top: 0.5rem;">
               Latest: ${data.activities[0]?.name || 'No activities'} • ${data.activities[0]?.distance || 0}km
             </div>
           `;
@@ -468,9 +379,34 @@
         }
       }
 
+      async function loadBeehiivWidget() {
+        try {
+          const response = await fetch('/api/beehiiv');
+          const data = await response.json();
 
-      // Refresh newsletter stats every 30 minutes
-      setInterval(loadNewsletterStats, 30 * 60 * 1000);
+          const count = typeof data.subscriberCount === 'number' && data.subscriberCount >= 1000
+            ? (data.subscriberCount / 1000).toFixed(1) + 'K'
+            : (data.subscriberCount ?? '—');
+
+          const posts = data.totalPosts ?? '—';
+
+          document.getElementById('beehiiv-data').innerHTML = `
+            <div class="stat-line">📬 ${count} subscribers • ${posts} posts</div>
+            <div class="muted small" style="margin-top: 0.5rem;">
+              ${data.publicationName || 'AI Second Act'}
+            </div>
+          `;
+
+          if (data.url) {
+            const link = document.getElementById('beehiiv-link');
+            if (link) link.href = data.url;
+          }
+        } catch (error) {
+          document.getElementById('beehiiv-data').textContent = 'Failed to load';
+        }
+      }
+
+      // No periodic refresh required for simplified widgets
     </script>
   </body>
 </html>

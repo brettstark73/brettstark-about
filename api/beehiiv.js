@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
     // Return fallback data if environment variables are not set
     if (!apiKey || !publicationId) {
-      console.log('Beehiiv API credentials not configured, returning fallback data');
+      // console.log('Beehiiv API credentials not configured, returning fallback data');
       return res.status(200).json({
         subscriberCount: 850,
         totalPosts: 24,
@@ -29,16 +29,16 @@ export default async function handler(req, res) {
         description: 'Newsletter for mid-career AI transformation',
         url: 'https://aisecondact.beehiiv.com',
         lastUpdated: new Date().toISOString(),
-        isLive: false
+        isLive: false,
       });
     }
 
     // Fetch publication data from Beehiiv API
     const response = await fetch(`https://api.beehiiv.com/v2/publications/${publicationId}`, {
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!response.ok) {
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    
+
     // Extract and format stats
     const stats = {
       subscriberCount: data.subscriber_count || 0,
@@ -55,17 +55,16 @@ export default async function handler(req, res) {
       description: data.description || 'Newsletter for mid-career AI transformation',
       url: data.url || 'https://aisecondact.beehiiv.com',
       lastUpdated: new Date().toISOString(),
-      isLive: true
+      isLive: true,
     };
 
     // Cache for 30 minutes
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate');
-    
+
     res.status(200).json(stats);
-    
   } catch (error) {
-    console.error('Beehiiv API error:', error);
-    
+    // console.error('Beehiiv API error:', error);
+
     // Return fallback data on error
     res.status(200).json({
       subscriberCount: 850,
@@ -75,7 +74,7 @@ export default async function handler(req, res) {
       url: 'https://aisecondact.beehiiv.com',
       lastUpdated: new Date().toISOString(),
       isLive: false,
-      error: 'Unable to fetch live stats'
+      error: 'Unable to fetch live stats',
     });
   }
 }
