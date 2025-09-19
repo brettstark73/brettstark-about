@@ -472,6 +472,8 @@ a:focus-visible,
   box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
   transition: all 0.3s ease;
   color: #111827; /* ensure strong contrast in light mode */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Card content readability */
@@ -490,7 +492,7 @@ a:focus-visible,
 
 .card a {
   display: block;
-  margin-top: 1rem;
+  margin-top: auto; /* pin link to bottom */
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   color: var(--primary-color);
@@ -516,6 +518,31 @@ a:focus-visible,
 
 .card .small {
   font-size: 0.9em;
+}
+
+/* Small live/fallback badge used in Beehiiv card */
+.badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  line-height: 1.2;
+  vertical-align: middle;
+  border: 1px solid transparent;
+}
+
+.badge.live {
+  color: #065f46;
+  background: #d1fae5;
+  border-color: #10b981;
+}
+
+.badge.fallback {
+  color: #7c2d12;
+  background: #fee2e2;
+  border-color: #f87171;
 }
 
 /* Responsive adjustments */

@@ -71,6 +71,8 @@ export default async function handler(req, res) {
         },
       };
 
+      // Cache mock for 10 minutes to keep UI stable
+      res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate');
       res.status(200).json(mockData);
       return;
     }
@@ -128,6 +130,8 @@ export default async function handler(req, res) {
       },
     };
 
+    // Cache live data for 10 minutes
+    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate');
     res.status(200).json(data);
   } catch (error) {
     // console.error('Strava API Error:', error);
