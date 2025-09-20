@@ -1,10 +1,5 @@
 import express from 'express';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { default as githubHandler } from './api/github.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 const port = 3000;
@@ -26,6 +21,5 @@ app.get('/api/github', (req, res) => {
   return githubHandler.default(req, res);
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// eslint-disable-next-line no-console
+app.listen(port, () => { console.log(`Server running at http://localhost:${port}`); });

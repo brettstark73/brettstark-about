@@ -202,11 +202,6 @@ main {
   border-color: var(--primary-color);
 }
 
-.link-card:hover h4,
-.link-card:hover p {
-  color: white;
-}
-
 .link-card h4,
 .link-card p {
   position: relative;
@@ -224,6 +219,12 @@ main {
   font-size: 0.875rem;
   opacity: 0.8;
   margin: 0;
+}
+
+/* Hover/focus text colors after base heading/paragraph rules to satisfy specificity ordering */
+.link-card:hover h4,
+.link-card:hover p {
+  color: white;
 }
 
 .contact {
