@@ -349,6 +349,7 @@
       async function loadGitHub() {
         try {
           const response = await fetch('/api/github');
+          if (!response.ok) throw new Error('GitHub API error');
           const data = await response.json();
 
           const githubData = document.getElementById('github-data');
@@ -358,6 +359,10 @@
               Latest: ${data.repos[0]?.name || 'No repos'} • ${data.commits[0]?.message.substring(0, 40) || 'No commits'}...
             </div>
           `;
+
+          // Mark GitHub widget as live on success
+          const ghTitle = document.querySelector('#github-card h4');
+          if (ghTitle) ghTitle.innerHTML = '🔧 GitHub <span class="badge live" title="Live stats">Live</span>';
         } catch (error) {
           document.getElementById('github-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
@@ -365,12 +370,16 @@
               Open profile →
             </a>
           `;
+
+          const ghTitle = document.querySelector('#github-card h4');
+          if (ghTitle) ghTitle.innerHTML = '🔧 GitHub <span class="badge fallback" title="Fallback view (API unavailable)">Fallback</span>';
         }
       }
 
       async function loadStrava() {
         try {
           const response = await fetch('/api/strava');
+          if (!response.ok) throw new Error('Strava API error');
           const data = await response.json();
 
           document.getElementById('strava-data').innerHTML = `
@@ -379,6 +388,12 @@
               Latest: ${data.activities[0]?.name || 'No activities'} • ${data.activities[0]?.distance || 0}km
             </div>
           `;
+
+          const badge = data.isLive
+            ? '<span class="badge live" title="Live stats">Live</span>'
+            : '<span class="badge fallback" title="Fallback stats (no token)">Fallback</span>';
+          const stTitle = document.querySelector('#strava-card h4');
+          if (stTitle) stTitle.innerHTML = `🏃‍♂️ Strava ${badge}`;
         } catch (error) {
           document.getElementById('strava-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
@@ -386,6 +401,9 @@
               Open profile →
             </a>
           `;
+
+          const stTitle = document.querySelector('#strava-card h4');
+          if (stTitle) stTitle.innerHTML = '🏃‍♂️ Strava <span class="badge fallback" title="Fallback view (API unavailable)">Fallback</span>';
         }
       }
 

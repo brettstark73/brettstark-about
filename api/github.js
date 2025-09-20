@@ -83,6 +83,7 @@ export default async function handler(req, res) {
         languages: [...new Set(topRepos.map((repo) => repo.language).filter(Boolean))].length,
         topLanguage: getTopLanguage(topRepos),
       },
+      isLive: true,
     };
 
     // Cache for 10 minutes to reduce rate limits

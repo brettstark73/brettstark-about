@@ -69,6 +69,7 @@ export default async function handler(req, res) {
           avgPace: '5:12', // min/km
           weeklyDistance: 28.7,
         },
+        isLive: false,
       };
 
       // Cache mock for 10 minutes to keep UI stable
@@ -128,6 +129,7 @@ export default async function handler(req, res) {
         avgPace: avgPace,
         weeklyDistance: Math.round(totalDistance * 10) / 10,
       },
+      isLive: true,
     };
 
     // Cache live data for 10 minutes
