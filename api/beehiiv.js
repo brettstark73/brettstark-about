@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         totalPosts: 24,
         publicationName: 'AI Second Act',
         description: 'Newsletter for mid-career AI transformation',
-        url: 'https://aisecondact.beehiiv.com',
+        url: 'https://aisecondact.com',
         lastUpdated: new Date().toISOString(),
         isLive: false,
       });
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       totalPosts: data.total_posts || 0,
       publicationName: data.name || 'AI Second Act',
       description: data.description || 'Newsletter for mid-career AI transformation',
-      url: data.url || 'https://aisecondact.beehiiv.com',
+      url: data.url || 'https://aisecondact.com',
       lastUpdated: new Date().toISOString(),
       isLive: true,
     };
@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       totalPosts: 24,
       publicationName: 'AI Second Act',
       description: 'Newsletter for mid-career AI transformation',
-      url: 'https://aisecondact.beehiiv.com',
+      url: 'https://aisecondact.com',
       lastUpdated: new Date().toISOString(),
       isLive: false,
       error: 'Unable to fetch live stats',
