@@ -25,6 +25,10 @@
   "engines": {
     "node": ">=20"
   },
+  "volta": {
+    "node": "20.11.1",
+    "npm": "10.2.4"
+  },
   "dependencies": {
     "express": "^5.1.0",
     "node-fetch": "^3.3.2"
