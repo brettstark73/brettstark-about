@@ -278,6 +278,7 @@
           <h3>Recent Activity</h3>
           <div class="activity-grid">
             <div class="card" id="github-card">
+              <span class="widget-state" id="github-state"></span>
               <h4>🔧 GitHub</h4>
               <div id="github-data">Loading...</div>
               <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer"
@@ -285,6 +286,7 @@
               >
             </div>
             <div class="card" id="strava-card">
+              <span class="widget-state" id="strava-state"></span>
               <h4>🏃‍♂️ Strava</h4>
               <div id="strava-data">Loading...</div>
               <a
@@ -295,6 +297,7 @@
               >
             </div>
             <div class="card" id="beehiiv-card">
+              <span class="widget-state" id="beehiiv-state"></span>
               <h4>📰 Newsletter</h4>
               <div id="beehiiv-data">Loading...</div>
               <a
@@ -359,10 +362,8 @@
               Latest: ${data.repos[0]?.name || 'No repos'} • ${data.commits[0]?.message.substring(0, 40) || 'No commits'}...
             </div>
           `;
-
-          // Mark GitHub widget as live on success
-          const ghTitle = document.querySelector('#github-card h4');
-          if (ghTitle) ghTitle.innerHTML = '🔧 GitHub <span class="badge live" title="Live stats">Live</span>';
+          const ghState = document.getElementById('github-state');
+          if (ghState) { ghState.className = 'widget-state live'; ghState.textContent = 'LIVE'; }
         } catch (error) {
           document.getElementById('github-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
@@ -370,9 +371,8 @@
               Open profile →
             </a>
           `;
-
-          const ghTitle = document.querySelector('#github-card h4');
-          if (ghTitle) ghTitle.innerHTML = '🔧 GitHub <span class="badge fallback" title="Fallback view (API unavailable)">Fallback</span>';
+          const ghState = document.getElementById('github-state');
+          if (ghState) { ghState.className = 'widget-state fallback'; ghState.textContent = 'FALLBACK'; }
         }
       }
 
@@ -388,12 +388,11 @@
               Latest: ${data.activities[0]?.name || 'No activities'} • ${data.activities[0]?.distance || 0}km
             </div>
           `;
-
-          const badge = data.isLive
-            ? '<span class="badge live" title="Live stats">Live</span>'
-            : '<span class="badge fallback" title="Fallback stats (no token)">Fallback</span>';
-          const stTitle = document.querySelector('#strava-card h4');
-          if (stTitle) stTitle.innerHTML = `🏃‍♂️ Strava ${badge}`;
+          const stState = document.getElementById('strava-state');
+          if (stState) {
+            stState.className = data.isLive ? 'widget-state live' : 'widget-state fallback';
+            stState.textContent = data.isLive ? 'LIVE' : 'FALLBACK';
+          }
         } catch (error) {
           document.getElementById('strava-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
@@ -401,9 +400,8 @@
               Open profile →
             </a>
           `;
-
-          const stTitle = document.querySelector('#strava-card h4');
-          if (stTitle) stTitle.innerHTML = '🏃‍♂️ Strava <span class="badge fallback" title="Fallback view (API unavailable)">Fallback</span>';
+          const stState = document.getElementById('strava-state');
+          if (stState) { stState.className = 'widget-state fallback'; stState.textContent = 'FALLBACK'; }
         }
       }
 
@@ -418,12 +416,12 @@
 
           const posts = data.totalPosts ?? '—';
 
-          // Update badge on the card title
-          const badgeHtml = data.isLive
-            ? '<span class="badge live" title="Live stats from Beehiiv">Live</span>'
-            : '<span class="badge fallback" title="Fallback stats (API unavailable)">Fallback</span>';
-          const beehiivTitle = document.querySelector('#beehiiv-card h4');
-          if (beehiivTitle) beehiivTitle.innerHTML = `📰 Newsletter ${badgeHtml}`;
+          // Update widget state badge in top-right
+          const bhState = document.getElementById('beehiiv-state');
+          if (bhState) {
+            bhState.className = data.isLive ? 'widget-state live' : 'widget-state fallback';
+            bhState.textContent = data.isLive ? 'LIVE' : 'FALLBACK';
+          }
 
           document.getElementById('beehiiv-data').innerHTML = `
             <div class="stat-line">📬 ${count} subscribers • ${posts} posts</div>
@@ -442,10 +440,9 @@
             }
           }
         } catch (error) {
-          // Set fallback badge when API fails
-          const beehiivTitle = document.querySelector('#beehiiv-card h4');
-          if (beehiivTitle) beehiivTitle.innerHTML =
-            '📰 Newsletter <span class="badge fallback" title="Fallback stats (API unavailable)">Fallback</span>';
+          // Set fallback state badge when API fails
+          const bhState = document.getElementById('beehiiv-state');
+          if (bhState) { bhState.className = 'widget-state fallback'; bhState.textContent = 'FALLBACK'; }
 
           document.getElementById('beehiiv-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>

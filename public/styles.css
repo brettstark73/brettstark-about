@@ -474,6 +474,7 @@ a:focus-visible,
   color: #111827; /* ensure strong contrast in light mode */
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* Card content readability */
@@ -521,29 +522,18 @@ a:focus-visible,
 }
 
 /* Small live/fallback badge used in Beehiiv card */
-.badge {
-  display: inline-block;
-  margin-left: 0.5rem;
-  padding: 0.1rem 0.45rem;
+/* Widget state label in top-right of card */
+.widget-state {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
   font-size: 0.7rem;
   font-weight: 700;
-  border-radius: 9999px;
-  line-height: 1.2;
-  vertical-align: middle;
-  border: 1px solid transparent;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
 }
-
-.badge.live {
-  color: #065f46;
-  background: #d1fae5;
-  border-color: #10b981;
-}
-
-.badge.fallback {
-  color: #7c2d12;
-  background: #fee2e2;
-  border-color: #f87171;
-}
+.widget-state.fallback { color: #f59e0b; }
+.widget-state.live { color: #10b981; }
 
 /* Responsive adjustments */
 @media (width <= 600px) {
