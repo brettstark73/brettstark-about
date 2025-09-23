@@ -12,13 +12,13 @@ This project uses a consistent, automated quality pipeline (Prettier, ESLint, St
 
 From your project root (must be a git repo):
 
-1) Run the setup script
+1. Run the setup script
 
 ```
 node /Users/brettstark/Projects/quality-automation-template/setup.js
 ```
 
-2) Install deps and set up Husky
+2. Install deps and set up Husky
 
 ```
 npm install
@@ -49,6 +49,12 @@ The workflow `.github/workflows/quality.yml` runs on every push/PR with Node 20:
 - Stylelint
 - Non‑blocking security audit
 
+## Vercel Runtime (Note)
+
+- Prefer auto‑detection of Node from `package.json` `engines` when deploying to Vercel.
+- Avoid hard‑coding a `runtime` in `vercel.json` unless verified against current Vercel docs — incorrect values can break deploys.
+- Local/CI Node 20 pinning (nvmrc/engines/Volta) is independent of Vercel’s Functions runtime.
+
 ## Toolchain Pinning (Recommended)
 
 - `.nvmrc` with `20`
@@ -59,13 +65,13 @@ The workflow `.github/workflows/quality.yml` runs on every push/PR with Node 20:
 
 ## Manual Setup (If Not Using Script)
 
-1) Install dev deps
+1. Install dev deps
 
 ```
 npm i -D prettier eslint stylelint stylelint-config-standard husky lint-staged
 ```
 
-2) Add scripts to `package.json`
+2. Add scripts to `package.json`
 
 ```
 "format": "prettier --write .",
@@ -74,7 +80,7 @@ npm i -D prettier eslint stylelint stylelint-config-standard husky lint-staged
 "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint \"**/*.css\" --fix"
 ```
 
-3) Add `lint-staged` to `package.json`
+3. Add `lint-staged` to `package.json`
 
 ```
 "lint-staged": {
@@ -85,14 +91,14 @@ npm i -D prettier eslint stylelint stylelint-config-standard husky lint-staged
 }
 ```
 
-4) Create configs in the repo root
+4. Create configs in the repo root
 
 - `.eslintrc.json` (use `eslint:recommended` or your preferred config)
 - `.eslintignore` (ignore `dist/`, `build/`, `node_modules/`)
 - `.stylelintrc.json` (extends `stylelint-config-standard`)
 - `.prettierrc`, `.prettierignore`
 
-5) Initialize Husky
+5. Initialize Husky
 
 ```
 npm run prepare
@@ -108,4 +114,3 @@ npm run prepare
 
 - The sibling template repo (`quality-automation-template`) is already pinned to Node 20 and includes ESLint/Stylelint out of the box.
 - For new repos, just run the template’s setup script and you’re ready.
-
