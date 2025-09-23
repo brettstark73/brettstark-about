@@ -322,7 +322,6 @@ a:focus-visible,
   .contact {
     background: var(--background);
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -523,6 +522,7 @@ a:focus-visible,
 }
 
 /* Small live/fallback badge used in Beehiiv card */
+
 /* Widget state label in top-right of card */
 .widget-state {
   position: absolute;
@@ -533,8 +533,14 @@ a:focus-visible,
   letter-spacing: 0.02em;
   opacity: 0.9;
 }
-.widget-state.fallback { color: #f59e0b; }
-.widget-state.live { color: #10b981; }
+
+.widget-state.fallback {
+  color: #f59e0b;
+}
+
+.widget-state.live {
+  color: #10b981;
+}
 
 /* Responsive adjustments */
 @media (width <= 600px) {

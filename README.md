@@ -35,6 +35,11 @@ npm run dev
 npm run deploy
 ```
 
+## Quality & Tooling
+
+- See QUALITY-SETUP.md for the full playbook on Prettier/ESLint/Stylelint, CI checks, and Node 20 pinning.
+- Local hooks via Husky + lint-staged run on commit; CI runs on every push/PR.
+
 ## Structure
 
 ```

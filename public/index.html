@@ -271,8 +271,6 @@
         </div>
       </section>
 
-      
-
       <section class="activity">
         <div class="container">
           <h3>Recent Activity</h3>
@@ -363,7 +361,10 @@
             </div>
           `;
           const ghState = document.getElementById('github-state');
-          if (ghState) { ghState.className = 'widget-state live'; ghState.textContent = 'LIVE'; }
+          if (ghState) {
+            ghState.className = 'widget-state live';
+            ghState.textContent = 'LIVE';
+          }
         } catch (error) {
           document.getElementById('github-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
@@ -372,7 +373,10 @@
             </a>
           `;
           const ghState = document.getElementById('github-state');
-          if (ghState) { ghState.className = 'widget-state fallback'; ghState.textContent = 'FALLBACK'; }
+          if (ghState) {
+            ghState.className = 'widget-state fallback';
+            ghState.textContent = 'FALLBACK';
+          }
         }
       }
 
@@ -401,7 +405,10 @@
             </a>
           `;
           const stState = document.getElementById('strava-state');
-          if (stState) { stState.className = 'widget-state fallback'; stState.textContent = 'FALLBACK'; }
+          if (stState) {
+            stState.className = 'widget-state fallback';
+            stState.textContent = 'FALLBACK';
+          }
         }
       }
 
@@ -410,9 +417,10 @@
           const response = await fetch('/api/beehiiv');
           const data = await response.json();
 
-          const count = typeof data.subscriberCount === 'number' && data.subscriberCount >= 1000
-            ? (data.subscriberCount / 1000).toFixed(1) + 'K'
-            : (data.subscriberCount ?? '—');
+          const count =
+            typeof data.subscriberCount === 'number' && data.subscriberCount >= 1000
+              ? (data.subscriberCount / 1000).toFixed(1) + 'K'
+              : (data.subscriberCount ?? '—');
 
           const posts = data.totalPosts ?? '—';
 
@@ -442,7 +450,10 @@
         } catch (error) {
           // Set fallback state badge when API fails
           const bhState = document.getElementById('beehiiv-state');
-          if (bhState) { bhState.className = 'widget-state fallback'; bhState.textContent = 'FALLBACK'; }
+          if (bhState) {
+            bhState.className = 'widget-state fallback';
+            bhState.textContent = 'FALLBACK';
+          }
 
           document.getElementById('beehiiv-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
