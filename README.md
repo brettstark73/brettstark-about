@@ -1,69 +1,68 @@
-# WFHroulette
+# Brett Stark - About Me
 
-WFHroulette is a tiny deterministic picker that helps teams assign a single work-from-home day each ISO week, complete
-with a light-hearted excuse. It ships with a Node.js CLI and a browser-based viewer so you can keep the fun going in the
-terminal or on a shared screen.
+Professional about me page for Brett Stark - Tech Leader & AI Strategist.
+
+## Overview
+
+A modern, responsive static website showcasing professional background, AI business ventures, and personal interests. Built with vanilla HTML/CSS and deployed on Vercel.
 
 ## Features
 
-- Deterministically selects one weekday (Monday–Friday only) per ISO week based on a seed.
-- Pairs every selection with a randomly chosen (but reproducible) excuse from `reasons.json`.
-- Re-usable core logic shared by the CLI and the browser UI.
-- Ships with a lightweight `/web` frontend that works offline.
+- Responsive design with mobile-first approach
+- Dark mode support (automatic based on system preference)
+- SEO optimized with Open Graph and Twitter Card meta tags
+- Accessibility features including skip links and focus indicators
+- Analytics integration with Plausible
+- Fast loading with preloaded fonts and optimized assets
 
-## Getting Started
+## Tech Stack
 
-### Prerequisites
+- HTML5
+- CSS3 with custom properties (CSS variables)
+- Google Fonts (Inter)
+- Vercel for hosting and deployment
 
-- Node.js 20 or newer (matches the version in the `package.json` engines field).
-
-### Install dependencies
+## Development
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
+npm run dev
+
+# Deploy to production
+npm run deploy
 ```
 
-## CLI Usage
+## Quality & Tooling
 
-Run the CLI with the default seed ("WFHroulette"):
+- See QUALITY-SETUP.md for the full playbook on Prettier/ESLint/Stylelint, CI checks, and Node 20 pinning.
+- Local hooks via Husky + lint-staged run on commit; CI runs on every push/PR.
 
-```bash
-node cli.js
+## Structure
+
+```
+public/
+├── index.html          # Main page
+├── styles.css          # All styling
+├── favicon.ico         # Site icon
+├── og-image.png        # Social media preview image
+├── site.webmanifest    # PWA manifest
+└── 404.html           # Error page
 ```
 
-Pass a custom seed so everyone gets a different-but-repeatable rotation:
+## Links
 
-```bash
-node cli.js --seed "team-rocket"
-```
+- **Live Site**: [about.brettstark.com](https://about.brettstark.com)
+- **AI Second Act**: [aisecondact.com](https://www.aisecondact.com)
+- **AI Builder Lab**: [aibuilderlab.com](https://www.aibuilderlab.com)
+- **Personal Website**: [brettstark.com](https://brettstark.com)
 
-Pick a date in the future (or past) to see who will stay home that week:
+## Contact
 
-```bash
-node cli.js --seed "product-squad" --date 2024-11-18
-```
+Best reached through [LinkedIn](https://www.linkedin.com/in/brettstark/) or [Twitter/X](https://x.com/BrettStark).
 
-Run `node cli.js --help` to see all available options.
+---
 
-The CLI prints the ISO week, the selected weekday and calendar date, plus the matching excuse. Because everything is
-seeded, running the same command again yields the same result.
-
-## Web Frontend
-
-Open `web/index.html` directly in a browser or serve the repo root with any static file server. The page mirrors the CLI
-experience:
-
-- Enter a seed and optional date.
-- Press **Spin the Wheel** to compute the WFH day and excuse.
-- Results update instantly and remain deterministic for the selected inputs.
-
-All logic runs in the browser—no external network requests are required.
-
-## Customising Excuses
-
-Update `reasons.json` to add, remove, or tweak the excuses. Both the CLI and the web UI load this file at runtime, so any
-changes are reflected automatically in both experiences.
-
-## License
-
-This project is released under the [MIT License](./LICENSE).
+© 2025 Brett Stark. All rights reserved.
