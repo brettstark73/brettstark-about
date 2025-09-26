@@ -78,6 +78,7 @@ BEEHIIV_PUBLICATION_ID=your_publication_id
 **Tech Leader & AI Strategist** with 30+ years in engineering excellence. Director of Program Management leading 200+ staff and managing $1B+ product portfolios in automotive electronics.
 
 **Current Ventures:**
+
 - **AI Second Act** - Newsletter for mid-career AI transformation
 - **AI Builder Lab** - AI tools and "vibe coding" education
 
