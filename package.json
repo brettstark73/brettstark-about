@@ -5,7 +5,7 @@
   "description": "Professional About Me page for Brett Stark",
   "main": "index.html",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "vercel dev",
     "serve": "python -m http.server 3000 --directory public",
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",

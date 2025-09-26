@@ -1,9 +1,10 @@
 import express from 'express';
-import { default as githubHandler } from './api/github.js';
+import githubHandler from './api/github.js';
+import stravaHandler from './api/strava.js';
+import beehiivHandler from './api/beehiiv.js';
 
 const app = express();
 const port = 3000;
-
 
 // Serve static files from the public directory
 app.use(express.static('public'));
@@ -16,10 +17,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// GitHub API endpoint
-app.get('/api/github', (req, res) => {
-  return githubHandler.default(req, res);
-});
+// API endpoints
+app.get('/api/github', githubHandler);
+app.get('/api/strava', stravaHandler);
+app.get('/api/beehiiv', beehiivHandler);
 
 // eslint-disable-next-line no-console
-app.listen(port, () => { console.log(`Server running at http://localhost:${port}`); });
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
