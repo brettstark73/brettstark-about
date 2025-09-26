@@ -1,5 +1,5 @@
 {
-  "name": "brett-stark-about-me",
+  "name": "brettstark-about",
   "version": "1.0.0",
   "type": "module",
   "description": "Professional About Me page for Brett Stark",
@@ -13,7 +13,6 @@
     "lint": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
     "quality": "npm run format && npm run lint && npm audit",
-    "wfh": "node cli.js"
   },
   "keywords": [
     "brett-stark",

@@ -1,69 +1,92 @@
-# WFHroulette
+# Brett Stark - About Me
 
-WFHroulette is a tiny deterministic picker that helps teams assign a single work-from-home day each ISO week, complete
-with a light-hearted excuse. It ships with a Node.js CLI and a browser-based viewer so you can keep the fun going in the
-terminal or on a shared screen.
+Professional about-me page showcasing Brett's career in tech leadership, AI ventures, and personal interests.
 
-## Features
+## 🌐 Live Site
 
-- Deterministically selects one weekday (Monday–Friday only) per ISO week based on a seed.
-- Pairs every selection with a randomly chosen (but reproducible) excuse from `reasons.json`.
-- Re-usable core logic shared by the CLI and the browser UI.
-- Ships with a lightweight `/web` frontend that works offline.
+[about.brettstark.com](https://about.brettstark.com)
 
-## Getting Started
+## ✨ Features
 
-### Prerequisites
+- **🔧 GitHub Integration** - Live repository and commit data
+- **🏃‍♂️ Strava Integration** - Real running activity and stats
+- **📰 Newsletter Stats** - AI Second Act publication metrics
+- **📱 Responsive Design** - Mobile-first, accessible interface
+- **🚀 Performance Optimized** - Fast loading, SEO-friendly
+- **🎨 Professional Design** - Clean, modern aesthetic
 
-- Node.js 20 or newer (matches the version in the `package.json` engines field).
+## 🛠️ Tech Stack
 
-### Install dependencies
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Backend**: Node.js serverless functions (Vercel)
+- **APIs**: GitHub API, Strava API, Beehiiv API
+- **Deployment**: Vercel with custom domain
+- **Quality**: ESLint, Prettier, Stylelint, Husky pre-commit hooks
+
+## 🏃‍♂️ Development
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
+npm run dev
+
+# Run quality checks
+npm run quality
+
+# Deploy to production
+npm run deploy
 ```
 
-## CLI Usage
+## 📁 Project Structure
 
-Run the CLI with the default seed ("WFHroulette"):
+```
+/
+├── api/              # Serverless API endpoints
+│   ├── github.js     # GitHub activity feed
+│   ├── strava.js     # Running data integration
+│   └── beehiiv.js    # Newsletter statistics
+├── public/           # Static website files
+│   ├── index.html    # Main page
+│   ├── styles.css    # All styling
+│   └── assets/       # Images, icons, favicons
+└── server.js         # Local development server
+```
+
+## 🔧 Environment Variables
+
+Required for live data integration:
 
 ```bash
-node cli.js
+# GitHub (optional - higher rate limits)
+GITHUB_USERNAME=brettstark73
+GITHUB_TOKEN=your_github_token
+
+# Strava (for live running data)
+STRAVA_CLIENT_ID=your_client_id
+STRAVA_CLIENT_SECRET=your_client_secret
+STRAVA_REFRESH_TOKEN=your_refresh_token
+
+# Beehiiv (for newsletter stats)
+BEEHIIV_API_KEY=your_api_key
+BEEHIIV_PUBLICATION_ID=your_publication_id
 ```
 
-Pass a custom seed so everyone gets a different-but-repeatable rotation:
+## 🎯 About Brett
 
-```bash
-node cli.js --seed "team-rocket"
-```
+**Tech Leader & AI Strategist** with 30+ years in engineering excellence. Director of Program Management leading 200+ staff and managing $1B+ product portfolios in automotive electronics.
 
-Pick a date in the future (or past) to see who will stay home that week:
+**Current Ventures:**
+- **AI Second Act** - Newsletter for mid-career AI transformation
+- **AI Builder Lab** - AI tools and "vibe coding" education
 
-```bash
-node cli.js --seed "product-squad" --date 2024-11-18
-```
+**Interests:** Running (23min 5K), astrophotography, sailing, tennis
 
-Run `node cli.js --help` to see all available options.
+## 📄 License
 
-The CLI prints the ISO week, the selected weekday and calendar date, plus the matching excuse. Because everything is
-seeded, running the same command again yields the same result.
+This project showcases Brett Stark's professional work and personal brand. The code structure is provided as reference, but content and personal information remain proprietary.
 
-## Web Frontend
+---
 
-Open `web/index.html` directly in a browser or serve the repo root with any static file server. The page mirrors the CLI
-experience:
-
-- Enter a seed and optional date.
-- Press **Spin the Wheel** to compute the WFH day and excuse.
-- Results update instantly and remain deterministic for the selected inputs.
-
-All logic runs in the browser—no external network requests are required.
-
-## Customising Excuses
-
-Update `reasons.json` to add, remove, or tweak the excuses. Both the CLI and the web UI load this file at runtime, so any
-changes are reflected automatically in both experiences.
-
-## License
-
-This project is released under the [MIT License](./LICENSE).
+**Built with ❤️ by Brett Stark**
