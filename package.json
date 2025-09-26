@@ -12,7 +12,7 @@
     "prepare": "husky",
     "lint": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
-    "quality": "npm run format && npm run lint && npm audit",
+    "quality": "npm run format && npm run lint && npm audit"
   },
   "keywords": [
     "brett-stark",
