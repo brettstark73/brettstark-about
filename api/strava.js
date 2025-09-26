@@ -16,7 +16,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    const accessToken = process.env.STRAVA_ACCESS_TOKEN;
+    let accessToken = process.env.STRAVA_ACCESS_TOKEN;
+    const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
+    const clientId = process.env.STRAVA_CLIENT_ID;
+    const clientSecret = process.env.STRAVA_CLIENT_SECRET;
+
+    // If we have refresh credentials, try to refresh the token
+    if (!accessToken && refreshToken && clientId && clientSecret) {
+      try {
+        const formData = new URLSearchParams();
+        formData.append('client_id', clientId);
+        formData.append('client_secret', clientSecret);
+        formData.append('grant_type', 'refresh_token');
+        formData.append('refresh_token', refreshToken);
+
+        const refreshResponse = await fetch('https://www.strava.com/oauth/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData,
+        });
+
+        if (refreshResponse.ok) {
+          const tokenData = await refreshResponse.json();
+          accessToken = tokenData.access_token;
+          // Note: In production, you'd want to store the new refresh_token too
+        }
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+      }
+    }
 
     if (!accessToken) {
       // Return mock data when no token is available
@@ -96,11 +124,28 @@ export default async function handler(req, res) {
     const athlete = await athleteResponse.json();
     const activities = await activitiesResponse.json();
 
-    // Calculate stats
+    // Calculate stats for this week (last 7 days)
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const thisWeekActivities = activities.filter(
+      (activity) => new Date(activity.start_date) > oneWeekAgo && activity.type === 'Run'
+    );
+
+    const weeklyDistance = thisWeekActivities.reduce(
+      (sum, activity) => sum + activity.distance / 1000,
+      0
+    );
     const totalDistance = activities.reduce((sum, activity) => sum + activity.distance / 1000, 0);
     const totalTime = activities.reduce((sum, activity) => sum + activity.moving_time, 0);
-    const avgSpeed = totalDistance > 0 ? totalTime / totalDistance : 0;
-    const avgPace = avgSpeed > 0 ? formatPace(avgSpeed) : '0:00';
+
+    // Calculate average pace from recent runs (seconds per km)
+    const recentRuns = activities.filter((activity) => activity.type === 'Run').slice(0, 3);
+    let avgPaceSeconds = 0;
+    if (recentRuns.length > 0) {
+      const totalRunTime = recentRuns.reduce((sum, run) => sum + run.moving_time, 0);
+      const totalRunDistance = recentRuns.reduce((sum, run) => sum + run.distance / 1000, 0);
+      avgPaceSeconds = totalRunDistance > 0 ? totalRunTime / totalRunDistance : 0;
+    }
+    const avgPace = avgPaceSeconds > 0 ? formatPace(avgPaceSeconds) : '0:00';
 
     const data = {
       athlete: {
@@ -127,7 +172,7 @@ export default async function handler(req, res) {
         totalDistance: Math.round(totalDistance * 10) / 10,
         totalTime: totalTime,
         avgPace: avgPace,
-        weeklyDistance: Math.round(totalDistance * 10) / 10,
+        weeklyDistance: Math.round(weeklyDistance * 10) / 10,
       },
       isLive: true,
     };
@@ -144,10 +189,9 @@ export default async function handler(req, res) {
   }
 }
 
-function formatPace(speedMs) {
-  // Convert m/s to min/km
-  const paceSeconds = 1000 / speedMs; // seconds per km
-  const minutes = Math.floor(paceSeconds / 60);
-  const seconds = Math.floor(paceSeconds % 60);
+function formatPace(secondsPerKm) {
+  // secondsPerKm is already seconds per kilometer
+  const minutes = Math.floor(secondsPerKm / 60);
+  const seconds = Math.floor(secondsPerKm % 60);
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }

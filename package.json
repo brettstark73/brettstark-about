@@ -10,7 +10,7 @@
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
     "prepare": "husky",
-    "lint": "eslint . --ext .js,.html --fix && stylelint 'web/**/*.css' --allow-empty-input",
+    "lint": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
     "quality": "npm run format && npm run lint && npm audit",
     "wfh": "node cli.js"

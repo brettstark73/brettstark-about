@@ -1,1 +1,2 @@
-public/styles.css
+# Only ignore external CSS libraries
+node_modules/**/*.css
