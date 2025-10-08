@@ -16,13 +16,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    let accessToken = process.env.STRAVA_ACCESS_TOKEN;
+    let accessToken = null;
     const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
     const clientId = process.env.STRAVA_CLIENT_ID;
     const clientSecret = process.env.STRAVA_CLIENT_SECRET;
 
-    // If we have refresh credentials, try to refresh the token
-    if (!accessToken && refreshToken && clientId && clientSecret) {
+    console.log('Strava credentials check:', {
+      hasRefreshToken: !!refreshToken,
+      hasClientId: !!clientId,
+      hasClientSecret: !!clientSecret,
+    });
+
+    // Always try to refresh the token if we have refresh credentials
+    // (Strava tokens expire every 6 hours, so always get a fresh one)
+    if (refreshToken && clientId && clientSecret) {
       try {
         const formData = new URLSearchParams();
         formData.append('client_id', clientId);
@@ -30,20 +37,28 @@ export default async function handler(req, res) {
         formData.append('grant_type', 'refresh_token');
         formData.append('refresh_token', refreshToken);
 
+        console.log('Attempting token refresh...');
         const refreshResponse = await fetch('https://www.strava.com/oauth/token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData,
         });
 
+        console.log('Refresh response status:', refreshResponse.status);
         if (refreshResponse.ok) {
           const tokenData = await refreshResponse.json();
           accessToken = tokenData.access_token;
-          // Note: In production, you'd want to store the new refresh_token too
+          console.log('Token refresh successful');
+          // Note: The refresh_token from response should replace the old one if it changes
+        } else {
+          const errorText = await refreshResponse.text();
+          console.error('Token refresh failed with status:', refreshResponse.status, errorText);
         }
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        console.error('Token refresh exception:', refreshError);
       }
+    } else {
+      console.log('Missing Strava credentials, using fallback data');
     }
 
     if (!accessToken) {
