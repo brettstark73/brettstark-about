@@ -22,7 +22,7 @@ app.get('/api/github', githubHandler);
 app.get('/api/strava', stravaHandler);
 app.get('/api/beehiiv', beehiivHandler);
 
-// eslint-disable-next-line no-console
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running at http://localhost:${port}`);
 });

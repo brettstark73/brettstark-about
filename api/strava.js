@@ -21,12 +21,6 @@ export default async function handler(req, res) {
     const clientId = process.env.STRAVA_CLIENT_ID;
     const clientSecret = process.env.STRAVA_CLIENT_SECRET;
 
-    console.log('Strava credentials check:', {
-      hasRefreshToken: !!refreshToken,
-      hasClientId: !!clientId,
-      hasClientSecret: !!clientSecret,
-    });
-
     // Always try to refresh the token if we have refresh credentials
     // (Strava tokens expire every 6 hours, so always get a fresh one)
     if (refreshToken && clientId && clientSecret) {
@@ -37,28 +31,26 @@ export default async function handler(req, res) {
         formData.append('grant_type', 'refresh_token');
         formData.append('refresh_token', refreshToken);
 
-        console.log('Attempting token refresh...');
         const refreshResponse = await fetch('https://www.strava.com/oauth/token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData,
         });
 
-        console.log('Refresh response status:', refreshResponse.status);
         if (refreshResponse.ok) {
           const tokenData = await refreshResponse.json();
           accessToken = tokenData.access_token;
-          console.log('Token refresh successful');
           // Note: The refresh_token from response should replace the old one if it changes
         } else {
+          // eslint-disable-next-line no-console
           const errorText = await refreshResponse.text();
+          // eslint-disable-next-line no-console
           console.error('Token refresh failed with status:', refreshResponse.status, errorText);
         }
       } catch (refreshError) {
+        // eslint-disable-next-line no-console
         console.error('Token refresh exception:', refreshError);
       }
-    } else {
-      console.log('Missing Strava credentials, using fallback data');
     }
 
     if (!accessToken) {
