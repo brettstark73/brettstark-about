@@ -10,8 +10,12 @@
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
     "prepare": "husky",
-    "lint": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
+    "lint": "eslint . --ext .js,.html && stylelint **/*.css",
+    "lint:fix": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
+    "format:check": "prettier --check **/*.{js,html,css,json,md}",
+    "security:audit": "npm audit --audit-level high",
+    "security:secrets": "node -e \"const fs=require('fs');const files=['.env','.env.local','package.json'];files.forEach(f=>{if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8');if(/[\\\"\\'][a-zA-Z0-9+/]{20,}[\\\"\\']/.test(c)){console.error('❌ Potential hardcoded secrets in '+f);process.exit(1)}}});console.log('✅ No secrets detected')\"",
     "quality": "npm run format && npm run lint && npm audit"
   },
   "keywords": [

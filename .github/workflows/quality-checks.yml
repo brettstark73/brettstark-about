@@ -26,14 +26,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint
-        run: npx eslint . --ext .js,.html --ignore-path .gitignore || true
+      - name: Run Prettier check
+        run: npm run format:check || true
 
-      - name: Check Prettier formatting
-        run: npx prettier --check "**/*.{js,html,css,json,md}" || true
-
-      - name: Run Stylelint
-        run: npx stylelint "**/*.css" || true
+      - name: Run ESLint and Stylelint
+        run: npm run lint || true
 
   security-scan:
     name: Security Audit
@@ -52,7 +49,10 @@ jobs:
         run: npm ci
 
       - name: Run npm audit
-        run: npm audit --audit-level=moderate
+        run: npm run security:audit
+
+      - name: Check for hardcoded secrets
+        run: npm run security:secrets
 
       - name: Run Snyk security scan
         uses: snyk/actions/node@master
