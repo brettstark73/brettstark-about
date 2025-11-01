@@ -47,10 +47,11 @@ npm run deploy
 │   ├── github.js     # GitHub activity feed
 │   ├── strava.js     # Running data integration
 │   └── beehiiv.js    # Newsletter statistics
-├── public/           # Static website files
+├── public/           # Static website files and assets
 │   ├── index.html    # Main page
 │   ├── styles.css    # All styling
-│   └── assets/       # Images, icons, favicons
+│   ├── og-image.png  # Social preview image (also used for Twitter)
+│   └── favicon-32x32.png
 └── server.js         # Local development server
 ```
 

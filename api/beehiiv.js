@@ -64,15 +64,20 @@ export default async function handler(req, res) {
     const pubData = await pubResponse.json();
     const postsData = await postsResponse.json();
 
+    const liveSubscriberCount = Number.isFinite(pubData.data?.subscriber_count)
+      ? pubData.data.subscriber_count
+      : null;
+    const livePostCount = Number.isFinite(postsData.total_results) ? postsData.total_results : 0;
+
     // Extract and format stats
     const stats = {
-      subscriberCount: pubData.data?.subscriber_count || 850, // Fall back to fallback count if API doesn't provide it
-      totalPosts: postsData.total_results || 0,
+      subscriberCount: liveSubscriberCount ?? 850,
+      totalPosts: livePostCount,
       publicationName: pubData.data?.name || 'AI Second Act',
       description: 'Newsletter for mid-career AI transformation',
       url: 'https://aisecondact.com',
       lastUpdated: new Date().toISOString(),
-      isLive: true,
+      isLive: liveSubscriberCount !== null,
     };
 
     // Cache for 30 minutes

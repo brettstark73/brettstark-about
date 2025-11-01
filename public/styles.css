@@ -526,25 +526,26 @@ a:focus-visible,
   text-transform: uppercase;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgb(255 255 255 / 90%);
   border: 1px solid;
   line-height: 1;
+
   /* Ensure consistent rendering across browsers */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "kern" 1;
+  font-feature-settings: 'kern' 1;
 }
 
 .widget-state.fallback {
   color: #d97706;
   border-color: #fbbf24;
-  background: rgba(254, 243, 199, 0.9);
+  background: rgb(254 243 199 / 90%);
 }
 
 .widget-state.live {
   color: #059669;
   border-color: #34d399;
-  background: rgba(209, 250, 229, 0.9);
+  background: rgb(209 250 229 / 90%);
 }
 
 /* Responsive adjustments */
