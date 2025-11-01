@@ -518,20 +518,33 @@ a:focus-visible,
 /* Widget state label in top-right of card */
 .widget-state {
   position: absolute;
-  top: 0.6rem;
+  top: 0.75rem;
   right: 0.75rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid;
+  line-height: 1;
+  /* Ensure consistent rendering across browsers */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1;
 }
 
 .widget-state.fallback {
-  color: #f59e0b;
+  color: #d97706;
+  border-color: #fbbf24;
+  background: rgba(254, 243, 199, 0.9);
 }
 
 .widget-state.live {
-  color: #10b981;
+  color: #059669;
+  border-color: #34d399;
+  background: rgba(209, 250, 229, 0.9);
 }
 
 /* Responsive adjustments */
