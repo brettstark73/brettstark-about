@@ -42,13 +42,11 @@ export default async function handler(req, res) {
           accessToken = tokenData.access_token;
           // Note: The refresh_token from response should replace the old one if it changes
         } else {
-          // eslint-disable-next-line no-console
           const errorText = await refreshResponse.text();
-          // eslint-disable-next-line no-console
+
           console.error('Token refresh failed with status:', refreshResponse.status, errorText);
         }
       } catch (refreshError) {
-        // eslint-disable-next-line no-console
         console.error('Token refresh exception:', refreshError);
       }
     }

@@ -79,8 +79,8 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate');
 
     res.status(200).json(stats);
-  } catch (error) {
-    // console.error('Beehiiv API error:', error);
+  } catch {
+    // console.error('Beehiiv API error');
 
     // Return fallback data on error
     res.status(200).json({

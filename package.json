@@ -10,13 +10,19 @@
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
     "prepare": "husky",
-    "lint": "eslint . --ext .js,.html && stylelint **/*.css",
-    "lint:fix": "eslint . --ext .js,.html --fix && stylelint **/*.css --fix",
+    "lint": "eslint . && stylelint **/*.css",
+    "lint:fix": "eslint . --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
     "format:check": "prettier --check **/*.{js,html,css,json,md}",
     "security:audit": "npm audit --audit-level high",
     "security:secrets": "node -e \"const fs=require('fs');const files=['.env','.env.local','package.json'];files.forEach(f=>{if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8');if(/[\\\"\\'][a-zA-Z0-9+/]{20,}[\\\"\\']/.test(c)){console.error('❌ Potential hardcoded secrets in '+f);process.exit(1)}}});console.log('✅ No secrets detected')\"",
-    "quality": "npm run format && npm run lint && npm audit"
+    "quality": "npm run format && npm run lint && npm audit",
+    "security:config": "npx create-quality-automation@latest --security-config",
+    "lighthouse:ci": "lhci autorun",
+    "lighthouse:upload": "lhci upload",
+    "validate:docs": "npx create-quality-automation@latest --validate-docs",
+    "validate:comprehensive": "npx create-quality-automation@latest --comprehensive",
+    "validate:all": "npm run validate:comprehensive && npm run security:audit"
   },
   "keywords": [
     "brett-stark",
@@ -38,12 +44,16 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.12.0",
     "prettier": "^3.2.5",
     "stylelint": "^16.2.1",
     "stylelint-config-standard": "^36.0.0",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "eslint-plugin-security": "^3.0.1",
+    "globals": "^15.9.0",
+    "@lhci/cli": "^0.14.0",
+    "@eslint/js": "^9.12.0"
   },
   "lint-staged": {
     "**/*.{js,html}": [
@@ -55,6 +65,16 @@
       "prettier --write"
     ],
     "**/*.{json,md}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "**/*.{js,jsx,mjs,cjs,html}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md,yml,yaml}": [
       "prettier --write"
     ]
   }

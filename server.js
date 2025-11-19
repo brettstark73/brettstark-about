@@ -23,6 +23,5 @@ app.get('/api/strava', stravaHandler);
 app.get('/api/beehiiv', beehiivHandler);
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server running at http://localhost:${port}`);
 });
