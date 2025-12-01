@@ -97,7 +97,7 @@ vercel domains add about.brettstark.com
 
 - **Hero:** Name, title, tagline, location
 - **Professional Journey:** Career highlights and current role
-- **AI Business Ventures:** AI Second Act newsletter and AI Builder Lab
+- **AI Business Ventures:** AI Second Act newsletter and Vibe Build Lab
 - **Background & Interests:** Personal interests (running, photography, sailing)
 - **Current Focus:** Professional growth and active lifestyle
 - **Links:** Social media and project links

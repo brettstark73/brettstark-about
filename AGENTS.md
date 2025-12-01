@@ -47,9 +47,9 @@ Before suggesting ANY infrastructure, CI/CD, or tooling changes:
 - Keep external dependencies minimal to preserve offline rendering and fast cold starts for API routes.
 - After production deploys, verify `sitemap.xml` and metadata via `curl` or browser devtools to ensure SEO assets remain intact.
 
-## Quality Automation (create-quality-automation)
+## Quality Automation (create-qa-architect)
 
-**IMPORTANT**: This project uses `create-quality-automation` for CI/CD quality gates. Before suggesting or creating ANY new GitHub Actions workflows for lint/test/security/formatting, you MUST first check:
+**IMPORTANT**: This project uses `create-qa-architect` for CI/CD quality gates. Before suggesting or creating ANY new GitHub Actions workflows for lint/test/security/formatting, you MUST first check:
 
 1. `.github/workflows/quality.yml` — already exists and handles all quality checks
 2. `.qualityrc.json` — CQA configuration file

@@ -81,7 +81,7 @@ BEEHIIV_PUBLICATION_ID=your_publication_id
 **Current Ventures:**
 
 - **AI Second Act** - Newsletter for mid-career AI transformation
-- **AI Builder Lab** - AI tools and "vibe coding" education
+- **Vibe Build Lab** - AI tools and "vibe coding" education
 
 **Interests:** Running (23min 5K), astrophotography, sailing, tennis
 

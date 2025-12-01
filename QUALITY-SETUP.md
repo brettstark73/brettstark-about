@@ -15,7 +15,7 @@ From your project root (must be a git repo):
 1. Run the setup script
 
 ```
-node /Users/brettstark/Projects/quality-automation-template/setup.js
+npx create-qa-architect
 ```
 
 2. Install deps and set up Husky
