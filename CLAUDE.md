@@ -1,168 +1,68 @@
-# Claude Code Project Configuration
+# Brett Stark About Site - Claude Guide
 
-## Project Overview
+> Static about-me page with live GitHub, Strava, and newsletter feeds.
 
-**Project Name:** Brett Stark About Me Site
-**Type:** Static Website
-**Tech Stack:** HTML5, CSS3, Vanilla JavaScript
-**Purpose:** Professional about-me page showcasing Brett's career, AI ventures, and personal interests
+**Domain**: about.brettstark.com
 
-## Development Commands
+## Tech Stack
 
-**Run Development Server:**
+| Layer    | Technology                      |
+| -------- | ------------------------------- |
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend  | Vercel Serverless Functions     |
+| Hosting  | Vercel                          |
+| Quality  | ESLint 9, Prettier, Stylelint   |
 
-```bash
-vercel dev
-```
-
-**Build Project:**
+## Key Commands
 
 ```bash
-echo 'Static site - no build needed'
-```
-
-**Deploy to Production:**
-
-```bash
-vercel --prod
-```
-
-**Verify Custom Domain (Post-Deploy):**
-
-```bash
-# Check domain is properly assigned
-vercel domains inspect about.brettstark.com
-# If domain missing, re-add it
-vercel domains add about.brettstark.com
-```
-
-**Local Preview:**
-
-```bash
-# Open public/index.html in browser
-# OR use any local server like:
-# python -m http.server 8000 (from public/ directory)
+npm run dev              # Vercel dev server
+node server.js           # Express dev (local only)
+vercel --prod            # Deploy to production
+npm run lint             # ESLint + Stylelint
+npm run quality:ci       # Full quality check
 ```
 
 ## Project Structure
 
 ```
 /
-├── api/              # Serverless API endpoints
-│   └── github.js     # GitHub activity API endpoint
-├── public/           # All website files
-│   ├── index.html    # Main homepage
-│   ├── styles.css    # All styling
-│   ├── 404.html      # Custom 404 page
-│   ├── favicon.ico   # Site icon (currently empty)
-│   ├── og-image.png  # Social media preview (currently empty)
-│   └── site.webmanifest # PWA manifest
-├── package.json      # Project metadata and scripts
-├── vercel.json       # Vercel deployment configuration
-├── robots.txt        # SEO robots file
-├── sitemap.xml       # SEO sitemap
-└── CLAUDE.md         # This file
+├── api/                 # Vercel serverless functions
+│   ├── github.js       # GitHub activity (10 min cache)
+│   ├── strava.js       # Running stats (10 min cache)
+│   └── beehiiv.js      # Newsletter stats (30 min cache)
+├── public/
+│   ├── index.html      # Single-page app
+│   └── styles.css      # All styling
+└── tests/              # Vitest tests
 ```
 
-## Key Files & Directories
+## API Endpoints
 
-- **Main Content:** public/index.html (single-page site)
-- **Styling:** public/styles.css (all CSS in one file)
-- **Configuration:** vercel.json (deployment settings)
-- **SEO Files:** robots.txt, sitemap.xml
-- **Assets:** favicon.ico, og-image.png (both need content)
-
-## Development Guidelines
-
-- **Code Style:** Clean, semantic HTML5 with modern CSS
-- **CSS Architecture:** CSS custom properties, mobile-first responsive design
-- **SEO Focus:** Rich meta tags, JSON-LD schema, accessibility features
-- **Performance:** Optimized loading, preloaded resources
-
-## Current Features
-
-- **SEO Optimized:** Complete meta tags, Open Graph, Twitter Cards
-- **Accessible:** Skip links, ARIA labels, keyboard navigation
-- **Responsive:** Mobile-first design with breakpoints
-- **Dark Mode:** Automatic system preference detection
-- **Performance:** Preloaded CSS, optimized fonts
-- **Analytics:** Plausible analytics integration
-- **GitHub Activity:** Live feed of recent commits and repositories with serverless API
-
-## Known Issues & TODOs
-
-- **404 page:** Basic styling - could match main site design better
-
-## Content Sections
-
-- **Hero:** Name, title, tagline, location
-- **Professional Journey:** Career highlights and current role
-- **AI Business Ventures:** AI Second Act newsletter and Vibe Build Lab
-- **Background & Interests:** Personal interests (running, photography, sailing)
-- **Current Focus:** Professional growth and active lifestyle
-- **Links:** Social media and project links
-- **Contact:** Connection information
-- **GitHub Activity:** Recent commits and repositories with tab-based interface
+| Endpoint       | Description                      | Cache  |
+| -------------- | -------------------------------- | ------ |
+| `/api/github`  | Repos, commits, languages        | 10 min |
+| `/api/strava`  | Running activities, weekly stats | 10 min |
+| `/api/beehiiv` | Subscribers, post count          | 30 min |
 
 ## Environment Variables
 
-### GitHub API Integration
-
-The GitHub activity feed requires these environment variables:
-
-**Required:**
-
-- `GITHUB_USERNAME` - GitHub username to fetch activity from (default: "brettstark73")
-
-**Optional:**
-
-- `GITHUB_TOKEN` - GitHub Personal Access Token for higher rate limits (server-side only)
-
-**Local Development:**
-
 ```bash
-# Create .env.local file (not committed to git)
-GITHUB_USERNAME=brettstark73
-GITHUB_TOKEN=ghp_your_token_here
+GITHUB_TOKEN=ghp_...           # Optional (rate limits)
+STRAVA_CLIENT_ID=...           # Required for live data
+STRAVA_CLIENT_SECRET=...
+STRAVA_REFRESH_TOKEN=...
+BEEHIIV_API_KEY=...            # Required for live data
 ```
 
-**Vercel Deployment:**
-Set environment variables in Vercel dashboard or using Vercel CLI:
+## What NOT to Do
 
-```bash
-vercel env add GITHUB_USERNAME
-vercel env add GITHUB_TOKEN
-```
-
-**Note:** The GitHub token is only used server-side and never exposed to the browser. Without a token, the API has lower rate limits but still functions.
-
-## Project-Specific Preferences
-
-- **Maintain SEO features** - don't remove meta tags or structured data
-- **Keep accessibility** - preserve skip links and ARIA labels
-- **Follow existing CSS patterns** - use CSS custom properties
-- **Mobile-first approach** - test responsive behavior
-
-## Helpful Context
-
-- **Domain:** about.brettstark.com (hosted on Vercel)
-- **Target Audience:** Professional contacts, potential collaborators
-- **Brand Colors:** Primary: #4f46e5 (indigo), Gradient: #667eea to #764ba2
-- **Typography:** Inter font family
-- **Analytics:** Plausible (privacy-focused)
-- **Deployment:** Vercel with custom domain
-
-## Environment Setup
-
-No environment variables required - fully static site.
-
-**Local Development:**
-
-1. Navigate to project directory
-2. Run `vercel dev` for local server
-3. Open browser to localhost:3000
-4. Edit files in public/ directory
+- Don't remove SEO meta tags or JSON-LD schema
+- Don't hardcode API credentials
+- Don't expose env vars to client
+- Don't remove API fallback data
+- Don't add build step (static site)
 
 ---
 
-_Brett Stark's professional about-me site - showcasing 30+ years in tech and AI ventures_
+_No framework, no build step. Global rules in `~/.claude/CLAUDE.md`._
