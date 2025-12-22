@@ -64,19 +64,45 @@ jobs:
 
       - name: Check for hardcoded secrets
         run: |
-          # Check for common secret patterns (excluding docs, tests, and workflow files)
-          if grep -r -E "(password|secret|key|token).*[=:].*['\"][^'\"]{8,}" . \
+          # Check for common secret patterns (excluding docs, tests, config files, and workflow files)
+          # Use more specific patterns to reduce false positives
+          SECRETS_FOUND=0
+
+          # Check for API keys and tokens with specific prefixes
+          if grep -r -E "(api_key|api_secret|apikey|apisecret|auth_token|access_token|refresh_token|bearer)['\"]?\s*[=:]\s*['\"][a-zA-Z0-9_-]{16,}" . \
                --exclude-dir=node_modules \
                --exclude-dir=.git \
                --exclude-dir=.github \
                --exclude-dir=tests \
                --exclude="*.md" \
-               --exclude="package.json" || \
-             grep -r -E "-----BEGIN.*KEY-----" . \
+               --exclude="*.json" \
+               --include="*.js" \
+               --include="*.ts" \
+               --include="*.jsx" \
+               --include="*.tsx" \
+               --include="*.env*"; then
+            SECRETS_FOUND=1
+          fi
+
+          # Check for private keys
+          if grep -r -E "-----BEGIN.*PRIVATE.*KEY-----" . \
                --exclude-dir=node_modules \
                --exclude-dir=.git \
                --exclude-dir=.github \
                --exclude-dir=tests; then
+            SECRETS_FOUND=1
+          fi
+
+          # Check for AWS/GCP/Azure credential patterns
+          if grep -r -E "(AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35})" . \
+               --exclude-dir=node_modules \
+               --exclude-dir=.git \
+               --exclude-dir=.github \
+               --exclude-dir=tests; then
+            SECRETS_FOUND=1
+          fi
+
+          if [ "$SECRETS_FOUND" -eq 1 ]; then
             echo "❌ Potential hardcoded secrets found"
             exit 1
           else

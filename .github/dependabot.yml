@@ -1,31 +1,36 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 5
     reviewers:
-      - "brettstark73"
+      - 'brettstark73'
     assignees:
-      - "brettstark73"
+      - 'brettstark73'
     commit-message:
-      prefix: "deps:"
-      include: "scope"
+      prefix: 'deps:'
+      include: 'scope'
     groups:
+      vitest:
+        applies-to: version-updates
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
       dev-dependencies:
         applies-to: version-updates
         patterns:
-          - "@types/*"
-          - "eslint*"
-          - "prettier"
-          - "stylelint*"
-          - "husky"
-          - "lint-staged"
+          - '@types/*'
+          - 'eslint*'
+          - 'prettier'
+          - 'stylelint*'
+          - 'husky'
+          - 'lint-staged'
       production-dependencies:
         applies-to: version-updates
         patterns:
-          - "express"
-          - "node-fetch"
+          - 'express'
+          - 'node-fetch'
