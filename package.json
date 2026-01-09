@@ -106,5 +106,15 @@
       "stylelint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "size-limit": [
+    {
+      "path": "public/**/*.js",
+      "limit": "250 kB"
+    },
+    {
+      "path": "public/**/*.css",
+      "limit": "50 kB"
+    }
+  ]
 }
