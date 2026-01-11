@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest'
+import { describe, it } from 'vitest';
 
 // Replace this stub with Playwright/Cypress flows for your app.
 describe.skip('smoke: homepage renders', () => {
@@ -8,5 +8,5 @@ describe.skip('smoke: homepage renders', () => {
     // const page = await chromium.launch().newPage()
     // await page.goto('http://localhost:3000')
     // await page.getByText('Welcome').isVisible()
-  })
-})
+  });
+});
