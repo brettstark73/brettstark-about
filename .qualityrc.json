@@ -43,9 +43,5 @@
       "enabled": false,
       "required": false
     }
-  },
-  "override": {
-    "comment": "Set maturity to a specific level to override auto-detection",
-    "options": ["minimal", "bootstrap", "development", "production-ready"]
   }
 }
