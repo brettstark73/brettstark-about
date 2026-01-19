@@ -43,6 +43,8 @@ jobs:
       has-css: ${{ steps.detect.outputs.has-css }}
       package-manager: ${{ steps.detect-pm.outputs.manager }}
       install-cmd: ${{ steps.detect-pm.outputs.install-cmd }}
+      is-turborepo: ${{ steps.detect-pm.outputs.is-turborepo }}
+      turbo-prefix: ${{ steps.detect-pm.outputs.turbo-prefix }}
 
     steps:
       - name: Checkout code
@@ -74,17 +76,32 @@ jobs:
             echo "install-cmd=npm install" >> $GITHUB_OUTPUT
           fi
 
+          # Detect Turborepo
+          if [ -f turbo.json ]; then
+            echo "is-turborepo=true" >> $GITHUB_OUTPUT
+            echo "turbo-prefix=turbo run" >> $GITHUB_OUTPUT
+            echo "📦 Turborepo detected - will use 'turbo run' for tasks"
+          else
+            echo "is-turborepo=false" >> $GITHUB_OUTPUT
+            echo "turbo-prefix=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Detect Project Maturity
         id: detect
         run: |
-          # Use the project maturity detector
-          node lib/project-maturity.js --github-actions >> $GITHUB_OUTPUT
+          # Use the project maturity detector (local for qa-architect itself, node_modules for other projects)
+          if [ -f lib/project-maturity.js ]; then
+            node lib/project-maturity.js --github-actions >> $GITHUB_OUTPUT
+          else
+            node node_modules/create-qa-architect/lib/project-maturity.js --github-actions >> $GITHUB_OUTPUT
+          fi
 
       - name: Display Detection Report
         run: |
           echo "📊 Project Detection Results"
           echo "Package Manager: ${{ steps.detect-pm.outputs.manager }}"
           echo "Install Command: ${{ steps.detect-pm.outputs.install-cmd }}"
+          echo "Turborepo: ${{ steps.detect-pm.outputs.is-turborepo }}"
           echo "Maturity: ${{ steps.detect.outputs.maturity }}"
           echo "Source files: ${{ steps.detect.outputs.source-count }}"
           echo "Test files: ${{ steps.detect.outputs.test-count }}"
@@ -252,7 +269,11 @@ jobs:
           echo "🔍 Running gitleaks secret scanning..."
           # Use setup.js security scan which manages gitleaks binary internally
           # This avoids the commercial license requirement of the gitleaks-action
-          node setup.js --security-config
+          if [ -f setup.js ]; then
+            node setup.js --security-config
+          else
+            node node_modules/create-qa-architect/setup.js --security-config
+          fi
 
       - name: Security pattern detection
         uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d # v1
@@ -353,18 +374,30 @@ jobs:
       - name: Configuration security check
         run: |
           echo "🔍 Running configuration security validation..."
-          node setup.js --security-config
+          if [ -f setup.js ]; then
+            node setup.js --security-config
+          else
+            node node_modules/create-qa-architect/setup.js --security-config
+          fi
 
       - name: Documentation validation
         run: |
           echo "📖 Running documentation validation..."
-          node setup.js --validate-docs
+          if [ -f setup.js ]; then
+            node setup.js --validate-docs
+          else
+            node node_modules/create-qa-architect/setup.js --validate-docs
+          fi
 
       - name: Documentation consistency and security audit freshness
         run: |
           echo "🔐 Running comprehensive documentation validation..."
           # This includes security audit freshness check with proper git-based validation
-          bash scripts/check-docs.sh
+          if [ -f scripts/check-docs.sh ]; then
+            bash scripts/check-docs.sh
+          else
+            bash node_modules/create-qa-architect/scripts/check-docs.sh
+          fi
 
       - name: Package size and contents validation
         if: hashFiles('package.json') != ''
