@@ -9,7 +9,7 @@
     "serve": "python -m http.server 3000 --directory public",
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
-    "prepare": "husky",
+    "prepare": "[ \"$CI\" = \"true\" ] && echo 'Skipping Husky in CI' || husky",
     "lint": "eslint . && stylelint **/*.css",
     "lint:fix": "eslint . --fix && stylelint **/*.css --fix",
     "format": "prettier --write **/*.{js,html,css,json,md}",
