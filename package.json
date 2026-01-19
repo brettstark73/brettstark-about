@@ -63,7 +63,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@lhci/cli": "^0.15.1",
-    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.17",
     "create-qa-architect": "^5.4.3",
     "eslint": "^9.39.2",
     "eslint-plugin-security": "^3.0.1",
