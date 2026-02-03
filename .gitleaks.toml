@@ -17,7 +17,8 @@ description = "Base64 encoded secrets (long)"
 id = "base64-secret"
 regex = '''[A-Za-z0-9+/]{40,}={0,2}'''
 tags = ["secret", "base64"]
-keywords = ["secret", "key", "token", "password"]
+# Only match when near secret-related keywords to reduce false positives
+keywords = ["secret", "key", "token", "password", "api", "credential"]
 
 [[rules]]
 description = "Environment variable secrets"
@@ -25,14 +26,20 @@ id = "env-secret"
 regex = '''(?i)(api_key|secret|password|token)\s*=\s*['""][^'"\s]{10,}['""]'''
 tags = ["env", "secret"]
 
-# Allowlist for test files and examples
-[[rules.allowlist]]
-description = "Test secrets and examples"
+# Global allowlist for common false positives
+[allowlist]
+description = "Common false positives and test files"
 regexes = [
   '''test_secret_.*''',
   '''example_.*''',
   '''dummy_.*''',
-  '''fake_.*'''
+  '''fake_.*''',
+  '''EXAMPLE_.*''',
+  '''your_.*_here''',
+  '''replace_with_.*''',
+  '''TODO:.*''',
+  # Git commit hashes and build artifact hashes
+  '''[a-f0-9]{40}'''
 ]
 paths = [
   '''tests/''',
@@ -40,15 +47,14 @@ paths = [
   '''__tests__/''',
   '''examples/''',
   '''docs/''',
-  '''.md$'''
-]
-
-# Global allowlist for common false positives
-[[allowlist]]
-description = "Common false positives"
-regexes = [
-  '''EXAMPLE_.*''',
-  '''your_.*_here''',
-  '''replace_with_.*''',
-  '''TODO:.*'''
+  '''.md$''',
+  # Build and generated directories
+  '''public/''',
+  '''dist/''',
+  '''build/''',
+  '''.next/''',
+  '''out/''',
+  '''node_modules/''',
+  # TypeScript build info
+  '''\.tsbuildinfo$'''
 ]
