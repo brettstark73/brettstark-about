@@ -51,7 +51,7 @@
   "author": "Brett Stark",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "volta": {
     "node": "20.11.1",
@@ -76,7 +76,7 @@
     "stylelint-config-standard": "^39.0.1",
     "vitest": "^4.0.15",
     "size-limit": "^12.0.0",
-    "@size-limit/file": "^11.0.0",
+    "@size-limit/file": "^12.0.0",
     "@commitlint/cli": "^20.4.0",
     "@commitlint/config-conventional": "^19.0.0",
     "axe-core": "^4.11.1",
