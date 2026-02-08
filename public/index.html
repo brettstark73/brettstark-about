@@ -6,7 +6,7 @@
     <title>Brett Stark - Tech Leader & AI Strategist</title>
     <meta
       name="description"
-      content="Brett Stark - Director of Program Management, AI strategist, and technology leader with 30+ years experience building AI Second Act newsletter"
+      content="Brett Stark - Director of Program Management, AI strategist, and technology leader with 30+ years experience building BuildProven newsletter"
     />
     <meta name="author" content="Brett Stark" />
     <meta name="theme-color" content="#667eea" />
@@ -23,7 +23,7 @@
     <meta property="og:title" content="Brett Stark - Tech Leader & AI Strategist" />
     <meta
       property="og:description"
-      content="Director of Program Management with 30+ years in tech, building AI Second Act newsletter for mid-career professionals"
+      content="Director of Program Management with 30+ years in tech, building BuildProven newsletter for mid-career professionals"
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://about.brettstark.com" />
@@ -35,7 +35,7 @@
     <meta name="twitter:title" content="Brett Stark - Tech Leader & AI Strategist" />
     <meta
       name="twitter:description"
-      content="Director of Program Management with 30+ years in tech, building AI Second Act newsletter for mid-career professionals"
+      content="Director of Program Management with 30+ years in tech, building BuildProven newsletter for mid-career professionals"
     />
     <meta name="twitter:image" content="https://about.brettstark.com/og-image.png" />
     <meta name="twitter:image:alt" content="Brett Stark - Tech Leader & AI Strategist" />
@@ -45,7 +45,10 @@
       rel="preload"
       href="styles.css"
       as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
     <noscript><link rel="stylesheet" href="styles.css" /></noscript>
 
@@ -145,7 +148,7 @@
 
             <div class="bio-section">
               <h3>AI Business Ventures</h3>
-              <p><strong>• AI Second Act:</strong></p>
+              <p><strong>• BuildProven:</strong></p>
               <p class="indent">
                 <strong>• Target Audience:</strong> Operating executives who need to bridge AI
                 promise and operational reality
@@ -216,12 +219,12 @@
           <h3>Connect & Explore</h3>
           <div class="links-grid">
             <a
-              href="https://www.aisecondact.com"
+              href="https://buildproven.ai"
               class="link-card"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <h4>🚀 AI Second Act</h4>
+              <h4>🚀 BuildProven</h4>
               <p>Newsletter for mid-career AI transformation</p>
             </a>
 
@@ -306,7 +309,7 @@
               <h4>📰 Newsletter</h4>
               <div id="beehiiv-data">Loading...</div>
               <a
-                href="https://aisecondact.com"
+                href="https://buildproven.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 id="beehiiv-link"
@@ -441,14 +444,14 @@
           document.getElementById('beehiiv-data').innerHTML = `
             <div class="stat-line">📬 ${count} subscribers • ${posts} posts</div>
             <div class="muted small" style="margin-top: 0.5rem;">
-              ${data.publicationName || 'AI Second Act'}
+              ${data.publicationName || 'BuildProven'}
             </div>
           `;
 
-          const preferred = 'https://aisecondact.com';
+          const preferred = 'https://buildproven.ai';
           const link = document.getElementById('beehiiv-link');
           if (link) {
-            if (data.url && /aisecondact\.com/.test(data.url)) {
+            if (data.url && /buildproven\.ai/.test(data.url)) {
               link.href = data.url;
             } else {
               link.href = preferred;
@@ -464,7 +467,7 @@
 
           document.getElementById('beehiiv-data').innerHTML = `
             <span class="muted small">Couldn’t load stats.</span>
-            <a href="https://aisecondact.com" target="_blank" rel="noopener noreferrer" style="display:inline-block; margin-top:0.5rem;">
+            <a href="https://buildproven.ai" target="_blank" rel="noopener noreferrer" style="display:inline-block; margin-top:0.5rem;">
               Open publication →
             </a>
           `;

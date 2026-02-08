@@ -1,5 +1,5 @@
 // Beehiiv Newsletter Stats API
-// Serverless function to fetch AI Second Act newsletter statistics
+// Serverless function to fetch BuildProven newsletter statistics
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -25,9 +25,9 @@ export default async function handler(req, res) {
       return res.status(200).json({
         subscriberCount: 850,
         totalPosts: 24,
-        publicationName: 'AI Second Act',
+        publicationName: 'BuildProven',
         description: 'Newsletter for mid-career AI transformation',
-        url: 'https://aisecondact.com',
+        url: 'https://buildproven.ai',
         lastUpdated: new Date().toISOString(),
         isLive: false,
       });
@@ -73,9 +73,9 @@ export default async function handler(req, res) {
     const stats = {
       subscriberCount: liveSubscriberCount ?? 850,
       totalPosts: livePostCount,
-      publicationName: pubData.data?.name || 'AI Second Act',
+      publicationName: pubData.data?.name || 'BuildProven',
       description: 'Newsletter for mid-career AI transformation',
-      url: 'https://aisecondact.com',
+      url: 'https://buildproven.ai',
       lastUpdated: new Date().toISOString(),
       isLive: liveSubscriberCount !== null,
     };
@@ -91,9 +91,9 @@ export default async function handler(req, res) {
     res.status(200).json({
       subscriberCount: 850,
       totalPosts: 24,
-      publicationName: 'AI Second Act',
+      publicationName: 'BuildProven',
       description: 'Newsletter for mid-career AI transformation',
-      url: 'https://aisecondact.com',
+      url: 'https://buildproven.ai',
       lastUpdated: new Date().toISOString(),
       isLive: false,
       error: 'Unable to fetch live stats',

@@ -10,7 +10,7 @@ Professional about-me page showcasing Brett's career in tech leadership, AI vent
 
 - **🔧 GitHub Integration** - Live repository and commit data
 - **🏃‍♂️ Strava Integration** - Real running activity and stats
-- **📰 Newsletter Stats** - AI Second Act publication metrics
+- **📰 Newsletter Stats** - BuildProven publication metrics
 - **📱 Responsive Design** - Mobile-first, accessible interface
 - **🚀 Performance Optimized** - Fast loading, SEO-friendly
 - **🎨 Professional Design** - Clean, modern aesthetic
@@ -80,8 +80,8 @@ BEEHIIV_PUBLICATION_ID=your_publication_id
 
 **Current Ventures:**
 
-- **AI Second Act** - Newsletter for mid-career AI transformation
-- **Vibe Build Lab** - AI tools and "vibe coding" education
+- **BuildProven** - Newsletter for mid-career AI transformation
+- **BuildProven** - AI tools and "vibe coding" education
 
 **Interests:** Running (23min 5K), astrophotography, sailing, tennis
 
