@@ -51,7 +51,7 @@
   "author": "Brett Stark",
   "license": "MIT",
   "engines": {
-    "node": "22.x"
+    "node": ">=20"
   },
   "volta": {
     "node": "20.11.1",
