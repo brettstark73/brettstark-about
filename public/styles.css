@@ -267,7 +267,6 @@ footer p {
 /* Accessibility & Dark Mode */
 .skip-link {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -279,7 +278,6 @@ footer p {
 }
 
 .skip-link:focus {
-  clip: auto;
   clip-path: none;
   width: auto;
   height: auto;
