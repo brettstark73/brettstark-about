@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       .map((event) => ({
         id: event.id,
         repo: event.repo.name,
-        message: event.payload.commits[0]?.message || 'No commit message',
+        message: event.payload.commits?.[0]?.message || 'No commit message',
         date: event.created_at,
         url: `https://github.com/${event.repo.name}`,
       }));
