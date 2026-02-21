@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
     // Fetch publication data and posts from Beehiiv API
     const [pubResponse, postsResponse] = await Promise.all([
-      fetch(`https://api.beehiiv.com/v2/publications/${publicationId}`, {
+      fetch(`https://api.beehiiv.com/v2/publications/${publicationId}?expand[]=stats`, {
         headers: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
@@ -64,8 +64,8 @@ export default async function handler(req, res) {
     const pubData = await pubResponse.json();
     const postsData = await postsResponse.json();
 
-    const liveSubscriberCount = Number.isFinite(pubData.data?.subscriber_count)
-      ? pubData.data.subscriber_count
+    const liveSubscriberCount = Number.isFinite(pubData.data?.stats?.active_subscriptions)
+      ? pubData.data.stats.active_subscriptions
       : null;
     const livePostCount = Number.isFinite(postsData.total_results) ? postsData.total_results : 0;
 
