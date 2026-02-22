@@ -3,7 +3,7 @@
 
 export default async function handler(req, res) {
   // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://about.brettstark.com');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -21,7 +21,10 @@ export default async function handler(req, res) {
 
     // Return fallback data if environment variables are not set
     if (!apiKey || !publicationId) {
-      // console.log('Beehiiv API credentials not configured, returning fallback data');
+      console.warn('Beehiiv API credentials not configured, returning fallback data', {
+        hasApiKey: !!apiKey,
+        hasPublicationId: !!publicationId,
+      });
       return res.status(200).json({
         subscriberCount: 850,
         totalPosts: 24,
@@ -84,10 +87,13 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate');
 
     res.status(200).json(stats);
-  } catch {
-    // console.error('Beehiiv API error');
+  } catch (error) {
+    console.error('Beehiiv API error:', {
+      message: error.message,
+      hasApiKey: !!process.env.BEEHIIV_API_KEY,
+      hasPublicationId: !!process.env.BEEHIIV_PUBLICATION_ID,
+    });
 
-    // Return fallback data on error
     res.status(200).json({
       subscriberCount: 850,
       totalPosts: 24,

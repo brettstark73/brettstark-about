@@ -1,7 +1,7 @@
 // Strava API endpoint for fetching user activities
 export default async function handler(req, res) {
   // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://about.brettstark.com');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -42,9 +42,7 @@ export default async function handler(req, res) {
           accessToken = tokenData.access_token;
           // Note: The refresh_token from response should replace the old one if it changes
         } else {
-          const errorText = await refreshResponse.text();
-
-          console.error('Token refresh failed with status:', refreshResponse.status, errorText);
+          console.error('Strava token refresh failed:', refreshResponse.status);
         }
       } catch (refreshError) {
         console.error('Token refresh exception:', refreshError);
@@ -52,7 +50,11 @@ export default async function handler(req, res) {
     }
 
     if (!accessToken) {
-      // Return mock data when no token is available
+      console.warn('Strava: no access token available, returning fallback data', {
+        hasRefreshToken: !!refreshToken,
+        hasClientId: !!clientId,
+        hasClientSecret: !!clientSecret,
+      });
       const mockData = {
         athlete: {
           id: 'brett_stark',
@@ -122,8 +124,11 @@ export default async function handler(req, res) {
       fetch('https://www.strava.com/api/v3/athlete/activities?per_page=5', { headers }),
     ]);
 
-    if (!athleteResponse.ok || !activitiesResponse.ok) {
-      throw new Error('Failed to fetch Strava data');
+    if (!athleteResponse.ok) {
+      throw new Error(`Strava athlete API failed: ${athleteResponse.status}`);
+    }
+    if (!activitiesResponse.ok) {
+      throw new Error(`Strava activities API failed: ${activitiesResponse.status}`);
     }
 
     const athlete = await athleteResponse.json();
@@ -186,10 +191,13 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate');
     res.status(200).json(data);
   } catch (error) {
-    // console.error('Strava API Error:', error);
+    console.error('Strava API Error:', {
+      message: error.message,
+      hasRefreshToken: !!process.env.STRAVA_REFRESH_TOKEN,
+      hasClientId: !!process.env.STRAVA_CLIENT_ID,
+    });
     res.status(500).json({
       error: 'Failed to fetch Strava data',
-      message: error.message,
     });
   }
 }
