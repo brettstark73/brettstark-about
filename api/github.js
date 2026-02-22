@@ -79,8 +79,7 @@ export default async function handler(req, res) {
       commits: recentCommits,
       stats: {
         totalRepos: user.public_repos,
-        totalCommits: recentCommits.length,
-        languages: [...new Set(topRepos.map((repo) => repo.language).filter(Boolean))].length,
+        followers: user.followers,
         topLanguage: getTopLanguage(topRepos),
       },
       isLive: true,
