@@ -352,8 +352,9 @@
           const repoDetail = latestRepo
             ? `${latestRepo.name} — ${latestRepo.description || latestRepo.language || 'Updated recently'}`
             : 'No repos';
+          const followers = data.stats.followers ?? data.user?.followers ?? 0;
           githubData.innerHTML = `
-            <div class="stat-line">📊 ${data.stats.totalRepos} repos • ${data.stats.followers} followers • ${data.stats.topLanguage}</div>
+            <div class="stat-line">📊 ${data.stats.totalRepos} repos • ${followers} followers • ${data.stats.topLanguage}</div>
             <div class="muted small" style="margin-top: 0.5rem;">
               Latest: ${repoDetail}
             </div>
