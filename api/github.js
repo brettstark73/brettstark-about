@@ -1,7 +1,7 @@
 // GitHub API endpoint for fetching user activity
 export default async function handler(req, res) {
   // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://about.brettstark.com');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -35,8 +35,11 @@ export default async function handler(req, res) {
       fetch(`https://api.github.com/users/${username}/events/public?per_page=6`, { headers }),
     ]);
 
-    if (!userResponse.ok || !reposResponse.ok || !eventsResponse.ok) {
-      throw new Error('Failed to fetch GitHub data');
+    const responses = { user: userResponse, repos: reposResponse, events: eventsResponse };
+    for (const [name, resp] of Object.entries(responses)) {
+      if (!resp.ok) {
+        throw new Error(`GitHub ${name} API failed: ${resp.status} ${resp.statusText}`);
+      }
     }
 
     const user = await userResponse.json();
@@ -89,10 +92,13 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate');
     res.status(200).json(data);
   } catch (error) {
-    // console.error('GitHub API Error:', error);
+    console.error('GitHub API Error:', {
+      message: error.message,
+      username: process.env.GITHUB_USERNAME || 'brettstark73',
+      hasToken: !!process.env.GITHUB_TOKEN,
+    });
     res.status(500).json({
       error: 'Failed to fetch GitHub data',
-      message: error.message,
     });
   }
 }
