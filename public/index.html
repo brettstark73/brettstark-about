@@ -348,10 +348,14 @@
           const data = await response.json();
 
           const githubData = document.getElementById('github-data');
+          const latestRepo = data.repos[0];
+          const repoDetail = latestRepo
+            ? `${latestRepo.name} — ${latestRepo.description || latestRepo.language || 'Updated recently'}`
+            : 'No repos';
           githubData.innerHTML = `
-            <div class="stat-line">📊 ${data.stats.totalRepos} repos • ${data.stats.totalCommits} commits</div>
+            <div class="stat-line">📊 ${data.stats.totalRepos} repos • ${data.stats.followers} followers • ${data.stats.topLanguage}</div>
             <div class="muted small" style="margin-top: 0.5rem;">
-              Latest: ${data.repos[0]?.name || 'No repos'} • ${data.commits[0]?.message.substring(0, 40) || 'No commits'}...
+              Latest: ${repoDetail}
             </div>
           `;
           const ghState = document.getElementById('github-state');
