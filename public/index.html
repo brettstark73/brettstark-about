@@ -367,14 +367,14 @@
             ghState.textContent = 'LIVE';
           }
         } catch (error) {
-          console.error(‘GitHub widget failed:’, error);
-          document.getElementById(‘github-data’).innerHTML = `
-            <span class="muted small">Couldn’t load stats.</span>
+          console.error('GitHub widget failed:', error);
+          document.getElementById('github-data').innerHTML = `
+            <span class="muted small">Couldn't load stats.</span>
             <a href="https://github.com/brettstark73" target="_blank" rel="noopener noreferrer" style="display:inline-block; margin-top:0.5rem;">
               Open profile →
             </a>
           `;
-          const ghState = document.getElementById(‘github-state’);
+          const ghState = document.getElementById('github-state');
           if (ghState) {
             ghState.className = 'widget-state fallback';
             ghState.textContent = 'FALLBACK';
@@ -400,14 +400,14 @@
             stState.textContent = data.isLive ? 'LIVE' : 'FALLBACK';
           }
         } catch (error) {
-          console.error(‘Strava widget failed:’, error);
-          document.getElementById(‘strava-data’).innerHTML = `
-            <span class="muted small">Couldn’t load stats.</span>
+          console.error('Strava widget failed:', error);
+          document.getElementById('strava-data').innerHTML = `
+            <span class="muted small">Couldn't load stats.</span>
             <a href="https://www.strava.com/athletes/brettstark" target="_blank" rel="noopener noreferrer" style="display:inline-block; margin-top:0.5rem;">
               Open profile →
             </a>
           `;
-          const stState = document.getElementById(‘strava-state’);
+          const stState = document.getElementById('strava-state');
           if (stState) {
             stState.className = 'widget-state fallback';
             stState.textContent = 'FALLBACK';
@@ -460,7 +460,7 @@
           }
 
           document.getElementById('beehiiv-data').innerHTML = `
-            <span class="muted small">Couldn’t load stats.</span>
+            <span class="muted small">Couldn't load stats.</span>
             <a href="https://buildproven.ai" target="_blank" rel="noopener noreferrer" style="display:inline-block; margin-top:0.5rem;">
               Open publication →
             </a>
