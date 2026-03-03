@@ -10,12 +10,10 @@ This directory contains integration tests for your api-service.
 
 ## Test Types for api-service
 
-
 - **Unit Tests**: Individual functions and modules
 - **Integration Tests**: Database operations, API endpoints
 - **E2E Tests**: Full request/response cycles
 - **Performance Tests**: Load testing, concurrency
-
 
 ## Troubleshooting
 
