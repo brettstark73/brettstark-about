@@ -10,3 +10,4 @@ node_modules/
 
 # Tool artifacts
 .playwright-mcp/
+.DS_Store
