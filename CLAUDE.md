@@ -73,6 +73,36 @@ _No framework, no build step. Global rules in `~/.claude/CLAUDE.md`._
 
 See `.claude-setup/docs/GITHUB-ACTIONS-POLICY.md` — minimal workflow mode, no new workflows.
 
+## Pre-Action Checklist
+
+Before suggesting ANY infrastructure, CI/CD, or tooling changes:
+
+1. Run `ls .github/workflows/` to see existing workflows
+2. Run `cat package.json | grep scripts -A 50` to see available commands
+3. Check for `.qualityrc.json`, `CLAUDE.md`, or similar config files
+
+## Quality Automation (create-qa-architect)
+
+This project uses `create-qa-architect` for CI/CD quality gates. Before suggesting or creating ANY new GitHub Actions workflows for lint/test/security/formatting, you MUST first check:
+
+1. `.github/workflows/quality.yml` — already exists and handles all quality checks
+2. `.qualityrc.json` — CQA configuration file
+
+**DO NOT** create duplicate workflows. The existing workflow already handles ESLint, Prettier, Stylelint, test execution, npm audit, and secret detection.
+
+Available commands (use these instead of suggesting new workflows):
+
+```bash
+npm run quality:ci       # Full CI quality pipeline
+npm run validate:all     # Comprehensive validation
+npm run lint             # ESLint + Stylelint
+npm run lint:fix         # Auto-fix lint
+npm run format:check     # Check formatting
+npm run security:audit   # Dependency security check
+```
+
+**Before proposing CI/CD changes**: Run `ls .github/workflows/` and read `quality.yml` to understand what already exists.
+
 ---
 
 **Last Updated:** 2026-03-01
