@@ -96,8 +96,8 @@ if [[ $RISK_SCORE -ge 7 ]]; then
 elif [[ $RISK_SCORE -ge 4 ]]; then
   echo "🟡 MEDIUM RISK - Standard validation"
   echo "   • Fast tests + integration (excludes slow tests)"
-  # Runs: npm run test:medium 2>/dev/null || npm run test -- --testPathIgnorePatterns=integration
-  npm run test:medium 2>/dev/null || npm run test -- --testPathIgnorePatterns=integration
+  # Runs: npm run test:medium 2>/dev/null || npm test
+  npm run test:medium 2>/dev/null || npm test
 elif [[ $RISK_SCORE -ge 2 || "$SPEED_BONUS" == "false" ]]; then
   echo "🟢 LOW RISK - Fast validation"
   echo "   • Unit tests only"
