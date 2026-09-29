@@ -52,5 +52,4 @@ paths = [
   '''.vercel/''',
   '''playwright-report/''',
   '''coverage/''',
-  '''.claude-setup/.*'''
 ]
