@@ -1,6 +1,8 @@
 {
   "checks": {
     "lint": "npm run lint",
+    "format": "npm run format:check",
+    "typecheck": "npm run type-check",
     "build": "npm run build",
     "test": "npm test"
   },

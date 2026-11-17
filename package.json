@@ -10,10 +10,10 @@
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
     "prepare": "[ \"$CI\" = \"true\" ] && echo 'Skipping Husky in CI' || husky",
-    "lint": "eslint . && stylelint **/*.css",
-    "lint:fix": "eslint . --fix && stylelint **/*.css --fix",
-    "format": "prettier --write **/*.{js,html,css,json,md}",
-    "format:check": "prettier --check **/*.{js,html,css,json,md}",
+    "lint": "eslint . && stylelint '**/*.css'",
+    "lint:fix": "eslint . --fix && stylelint '**/*.css' --fix",
+    "format": "prettier --write '**/*.{js,html,css,json,md}'",
+    "format:check": "prettier --check '**/*.{js,html,css,json,md}'",
     "security:audit": "npm audit --audit-level high",
     "security:secrets": "node -e \"const fs=require('fs');const files=['.env','.env.local','package.json'];files.forEach(f=>{if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8');if(/[\\\"\\'][a-zA-Z0-9+/]{20,}[\\\"\\']/.test(c)){console.error('❌ Potential hardcoded secrets in '+f);process.exit(1)}}});console.log('✅ No secrets detected')\"",
     "quality": "npm run format && npm run lint && npm audit",
@@ -65,7 +65,7 @@
     "npm": "10.2.4"
   },
   "dependencies": {
-    "express": "^5.2.1",
+    "express": "^5.3.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
@@ -74,6 +74,7 @@
     "@eslint/js": "^9.39.2",
     "@lhci/cli": "^0.15.1",
     "@size-limit/file": "^12.0.0",
+    "@types/node": "^20.19.43",
     "@vitest/coverage-v8": "^4.0.18",
     "axe-core": "^4.11.1",
     "commitlint": "^20.4.1",
@@ -89,6 +90,7 @@
     "size-limit": "^12.0.0",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
+    "typescript": "^5.9.3",
     "vitest": "^4.0.15"
   },
   "lint-staged": {
