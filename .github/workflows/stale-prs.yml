@@ -6,8 +6,13 @@ on:
     - cron: '0 11 * * *'
   workflow_dispatch:
 
+# actions/stale lists PRs through the issues API and saves its run state as
+# an Actions cache, so it needs issues and actions too (README "Recommended
+# permissions"). Without issues it fails: "Resource not accessible by
+# integration". contents is not needed: delete-branch is off.
 permissions:
-  contents: write
+  actions: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -15,7 +20,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v9
+      - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
           # PRs only — skip issues entirely
           days-before-issue-stale: -1
@@ -32,11 +37,12 @@ jobs:
             Auto-closed: PR exceeded 48h without merge. Re-open and rebase if still needed.
 
           # Exemptions
-          exempt-pr-labels: 'do-not-close,wip'
+          # actions/stale has no author filter (exempt-pr-authors was an
+          # unknown input, ignored); Dependabot labels its PRs "dependencies".
+          exempt-pr-labels: 'do-not-close,wip,dependencies'
           exempt-all-pr-assignees: false
-
-          # Exempt dependabot PRs (author filter)
-          exempt-pr-authors: 'dependabot[bot],dependabot'
+          # Drafts are work in progress, not stale.
+          exempt-draft-pr: true
 
           # CI minutes budget: process max 10 PRs per run
           operations-per-run: 10
